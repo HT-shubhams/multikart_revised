@@ -56,7 +56,7 @@ const UserList = () => {
           <div className="flex items-center mr-5 md:mr-7">
             <div
               className={classNames(
-                "flex items-center gap-1 bg-white py-2 pl-2 pr-[4.5px] md:p-2 rounded-lg border border-[#777a81]",
+                "flex items-center gap-1 bg-white py-2 pl-2 pr-[4.5px] md:p-2 rounded-lg border border-[#777a81] ml-4",
                 { "!border-[#2e4272]": isInputFocused }
               )}
             >
