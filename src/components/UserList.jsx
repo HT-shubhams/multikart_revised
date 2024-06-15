@@ -20,7 +20,9 @@ const UserList = () => {
             <GridViewIcon className="w-5 h-5 text-[#641CC0]" />
           </button>
           <button className="bg-[#641CC0] text-white p-2 rounded-md w-20 h-10 md:w-40 md:h-12 ml-3 md:ml-5 mr-5 md:mr-9">
-            {window.innerWidth < 768 ? "+ Add" : "+ Add User"}
+            {/* {window.innerWidth < 768 ? "+ Add" : "+ Add User"} */}
+            <span className="md:hidden">+ Add</span>
+            <span className="hidden md:block">+ Add User</span>
           </button>
         </div>
       </div>
@@ -38,8 +40,13 @@ const UserList = () => {
           </div>
 
           <div className="flex">
-            <div className="border p-2 md:p-3 border-[#777a81] rounded-md items-center">
-              <SearchIcon className={"my-auto"} />
+            <div className="flex border p-2 md:p-3 border-[#777a81] rounded-md items-center">
+              <SearchIcon className={"my-auto"} />{" "}
+              <input
+                type="text"
+                placeholder="Search here"
+                className="outline-none hidden md:ml-2 md:block md:w-52"
+              />
             </div>
           </div>
         </div>
