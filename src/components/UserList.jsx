@@ -43,7 +43,7 @@ const UserList = () => {
       <div className="flex flex-col mt-4 md:mt-8 rounded-lg shadow-md mx-2 md:mx-9">
         <div className="flex justify-between w-full">
           <div className="flex space-x-3">
-            <button className="flex p-2 border border-[#777a81] rounded-md items-center">
+            <button className="flex p-2 border border-[#777a81] rounded-md items-center ml-5 md:ml-8">
               <SortByIcon className="md:mr-2" />
               <span className="hidden md:inline">Sort By</span>
             </button>
@@ -69,7 +69,7 @@ const UserList = () => {
               </button>
               <input
                 type="text"
-                placeholder="Search"
+                placeholder="Search here"
                 className={classNames(
                   "bg-transparent outline-none text-black",
                   { "hidden md:block": !isSearchExpanded }

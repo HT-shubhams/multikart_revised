@@ -40,7 +40,7 @@ const useUserStore = create((set) => ({
       photo: "https://via.placeholder.com/100",
       firstName: "Bob",
       lastName: "Brown",
-      email: "bob.brown@example.combob.brown@example.com",
+      email: "bob.brown@example.com",
       phone: "456-789-0123",
       lastLogin: "2024-05-29",
       role: "User",
