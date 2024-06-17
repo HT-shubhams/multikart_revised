@@ -3,18 +3,25 @@ import "./tailwind.css";
 import Sidebar from "./components/Sidebar";
 import Header from "./components/Header";
 import UserList from "./components/UserList";
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import AddUser from "./components/AddUser";
 
 const App = () => {
   return (
-    <div className="font-poppins">
-      <Sidebar />
-      <div className="hidden md:block md:ml-64">
-        <Header />
+    <Router>
+      <div className="font-poppins">
+        <Sidebar />
+        <div className="hidden md:block md:ml-64">
+          <Header />
+        </div>
+        <div className="md:ml-64">
+          <Routes>
+            <Route path="/" element={<UserList />} />
+            <Route path="/add-user" element={<AddUser />} />
+          </Routes>
+        </div>
       </div>
-      <div className="md:ml-64">
-        <UserList />
-      </div>
-    </div>
+    </Router>
   );
 };
 

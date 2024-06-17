@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import classNames from "classnames";
 import {
   FilterByIcon,
@@ -14,6 +15,11 @@ const UserList = () => {
   const [isInputFocused, setIsInputFocused] = useState(false);
   const [isSearchExpanded, setIsSearchExpanded] = useState(false);
   const [isGridView, setIsGridView] = useState(true);
+
+  const navigate = useNavigate(); // Use the useNavigate hook
+  const navigateAddUser = () => {
+    navigate("/add-user");
+  };
 
   return (
     <div className="bg-[#F9F9F9]">
@@ -38,7 +44,10 @@ const UserList = () => {
           >
             <GridViewIcon className="w-5 h-5" />
           </button>
-          <button className="bg-[#641CC0] text-white p-2 rounded-md w-20 h-10 md:w-40 md:h-12 ml-3 md:ml-5 mr-5 md:mr-9">
+          <button
+            className="bg-[#641CC0] text-white p-2 rounded-md w-20 h-10 md:w-40 md:h-12 ml-3 md:ml-5 mr-5 md:mr-9"
+            onClick={navigateAddUser}
+          >
             <span className="md:hidden">+ Add</span>
             <span className="hidden md:block">+ Add User</span>
           </button>
