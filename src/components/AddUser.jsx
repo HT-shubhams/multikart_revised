@@ -42,8 +42,6 @@ const AddUser = () => {
 
     addUser(newUser);
 
-    toast.success("User has been added successfully!");
-
     setFirstName("");
     setLastName("");
     setEmail("");
@@ -54,6 +52,20 @@ const AddUser = () => {
     setConfirmPassword("");
 
     navigate("/");
+    // toast("🦄 Wow so easy!", {
+    //   position: "top-center",
+    //   autoClose: 5000,
+    //   hideProgressBar: false,
+    //   closeOnClick: true,
+    //   pauseOnHover: true,
+    //   draggable: true,
+    //   progress: undefined,
+    //   theme: "light",
+    // });
+    toast.success("User has been aded successfully!");
+    // toast.success("User has been aded successfully!", {
+    //   position: toast.POSITION.TOP_LEFT,
+    // });
   };
 
   return (

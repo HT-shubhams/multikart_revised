@@ -5,8 +5,8 @@ import Header from "./components/Header";
 import UserList from "./components/UserList";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import AddUser from "./components/AddUser";
-import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { ToastContainer } from "react-toastify";
 
 const App = () => {
   return (
@@ -17,6 +17,7 @@ const App = () => {
           <Header />
         </div>
         <div className="md:ml-64">
+          <ToastContainer />
           <Routes>
             <Route path="/" element={<UserList />} />
             <Route path="/add-user" element={<AddUser />} />
