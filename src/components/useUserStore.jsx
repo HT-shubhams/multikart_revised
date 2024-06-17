@@ -113,12 +113,16 @@ const useUserStore = create((set) => ({
       status: "Inactive",
     },
   ],
+  lastUserId: 10,
+
   setUsers: (users) => set({ users }),
 
-  addUser: (user) =>
-    set((state) => ({
-      users: [...state.users, user],
-    })),
+  addUser: (newUser) =>
+    set((state) => {
+      const updatedUsers = [...state.users, newUser];
+      const updatedLastUserId = newUser.id;
+      return { users: updatedUsers, lastUserId: updatedLastUserId };
+    }),
 
   updateUser: (userId, updatedUser) =>
     set((state) => ({

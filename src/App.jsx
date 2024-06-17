@@ -5,6 +5,8 @@ import Header from "./components/Header";
 import UserList from "./components/UserList";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import AddUser from "./components/AddUser";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const App = () => {
   return (

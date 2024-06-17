@@ -1,5 +1,8 @@
 import React, { useState } from "react";
+import useUserStore from "./useUserStore";
 import { HomeIcon } from "../assets/icons/HomeIcon";
+import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 
 const AddUser = () => {
   const [firstName, setFirstName] = useState("");
@@ -10,6 +13,10 @@ const AddUser = () => {
   const [status, setStatus] = useState("Active");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
+  const { users, lastUserId } = useUserStore();
+  const navigate = useNavigate();
+
+  const addUser = useUserStore((state) => state.addUser);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -19,10 +26,24 @@ const AddUser = () => {
       return;
     }
 
-    // Handle form submission logic here
-    console.log({ firstName, lastName, email, phone, role, status });
+    const newUserId = lastUserId + 1;
 
-    // Clear form fields after submission
+    const newUser = {
+      id: newUserId,
+      photo: "https://via.placeholder.com/100",
+      firstName,
+      lastName,
+      email,
+      phone,
+      role,
+      status,
+      lastLogin: new Date().toISOString(),
+    };
+
+    addUser(newUser);
+
+    toast.success("User has been added successfully!");
+
     setFirstName("");
     setLastName("");
     setEmail("");
@@ -31,6 +52,8 @@ const AddUser = () => {
     setStatus("Active");
     setPassword("");
     setConfirmPassword("");
+
+    navigate("/");
   };
 
   return (
@@ -113,7 +136,6 @@ const AddUser = () => {
             </label>
             <select
               id="role"
-              placeholder="Select Role"
               value={role}
               className="border border-[#c4c4c4] rounded-md w-full md:w-3/4 p-2 mt-1 md:mt-0"
               onChange={(e) => setRole(e.target.value)}
