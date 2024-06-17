@@ -1,9 +1,11 @@
 import React, { useState } from "react";
 import useUserStore from "./useUserStore";
 import { formatDistanceToNow } from "date-fns";
+import { useNavigate } from "react-router-dom";
 
 const UserListView = () => {
   const users = useUserStore((state) => state.users);
+  const navigate = useNavigate();
   const [selectedUsers, setSelectedUsers] = useState([]);
 
   const handleSelectAll = (e) => {
@@ -24,6 +26,16 @@ const UserListView = () => {
 
   const getLastLoginDisplay = (lastLogin) => {
     return formatDistanceToNow(new Date(lastLogin), { addSuffix: true });
+  };
+
+  const navigateToEditUser = (userId) => {
+    navigate(`/edit-user/${userId}`);
+  };
+
+  const handleOptionChange = (userId, selectedOption) => {
+    if (selectedOption === "Edit") {
+      navigateToEditUser(userId);
+    }
   };
 
   return (
@@ -105,7 +117,10 @@ const UserListView = () => {
                 {user.status}
               </td>
               <td className="hidden md:table-cell text-[14px] md:text-[16px] px-4 py-2">
-                <select className="bg-white border border-[#777a81] rounded-md w-24 h-8">
+                <select
+                  className="bg-white border border-[#777a81] rounded-md w-24 h-8"
+                  onChange={(e) => handleOptionChange(user.id, e.target.value)}
+                >
                   <option>Action</option>
                   <option>Edit</option>
                   <option>Delete</option>

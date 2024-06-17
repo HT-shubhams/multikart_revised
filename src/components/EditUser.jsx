@@ -1,58 +1,56 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import useUserStore from "./useUserStore";
 import { HomeIcon } from "../assets/icons/HomeIcon";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { toast } from "react-toastify";
 
-const AddUser = () => {
-  const [firstName, setFirstName] = useState("");
-  const [lastName, setLastName] = useState("");
-  const [email, setEmail] = useState("");
-  const [phone, setPhone] = useState("");
-  const [role, setRole] = useState("User");
-  const [status, setStatus] = useState("Active");
+const EditUser = () => {
+  const { users, updateUser } = useUserStore();
+  const navigate = useNavigate();
+  const { userId } = useParams();
+
+  const user = users.find((user) => user.id === parseInt(userId));
+
+  const [firstName, setFirstName] = useState(user?.firstName || "");
+  const [lastName, setLastName] = useState(user?.lastName || "");
+  const [email, setEmail] = useState(user?.email || "");
+  const [phone, setPhone] = useState(user?.phone || "");
+  const [role, setRole] = useState(user?.role || "User");
+  const [status, setStatus] = useState(user?.status || "Active");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
-  const { users, lastUserId } = useUserStore();
-  const navigate = useNavigate();
 
-  const addUser = useUserStore((state) => state.addUser);
+  useEffect(() => {
+    if (!user) {
+      navigate("/");
+    }
+  }, [user, navigate]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
 
     if (password !== confirmPassword) {
-      alert("Passwords do not match");
+      toast.error("Passwords do not match");
       return;
     }
 
-    const newUserId = lastUserId + 1;
-
-    const newUser = {
-      id: newUserId,
-      photo: "https://via.placeholder.com/100",
+    const updatedUser = {
+      id: user.id,
+      photo: user.photo,
       firstName,
       lastName,
       email,
       phone,
       role,
       status,
-      lastLogin: new Date().toISOString(),
+      lastLogin: user.lastLogin,
+      password: password ? password : user.password,
     };
 
-    addUser(newUser);
+    updateUser(user.id, updatedUser);
 
-    setFirstName("");
-    setLastName("");
-    setEmail("");
-    setPhone("");
-    setRole("User");
-    setStatus("Active");
-    setPassword("");
-    setConfirmPassword("");
-
+    toast.warn("User has been updated successfully!");
     navigate("/");
-    toast.success("User has been aded successfully!");
   };
 
   return (
@@ -64,7 +62,7 @@ const AddUser = () => {
             <HomeIcon />
           </div>
           / <span className="px-2 md:px-4 text-black">Users</span> /{" "}
-          <span className="px-2 md:px-4">Add User</span>
+          <span className="px-2 md:px-4">Edit User</span>
         </div>
       </div>
 
@@ -161,7 +159,7 @@ const AddUser = () => {
 
           <div className="flex flex-col md:flex-row md:items-center md:space-x-4">
             <label htmlFor="password" className="md:w-1/4">
-              Password <span className="text-red-500">*</span>
+              Password
             </label>
             <input
               type="password"
@@ -170,13 +168,12 @@ const AddUser = () => {
               placeholder="Password"
               className="border border-[#c4c4c4] rounded-md w-full md:w-3/4 p-2 mt-1 md:mt-0"
               onChange={(e) => setPassword(e.target.value)}
-              required
             />
           </div>
 
           <div className="flex flex-col md:flex-row md:items-center md:space-x-4">
             <label htmlFor="confirmPassword" className="md:w-1/4">
-              Confirm Password <span className="text-red-500">*</span>
+              Confirm Password
             </label>
             <input
               type="password"
@@ -185,7 +182,6 @@ const AddUser = () => {
               placeholder="Confirm Password"
               className="border border-[#c4c4c4] rounded-md w-full md:w-3/4 p-2 mt-1 md:mt-0"
               onChange={(e) => setConfirmPassword(e.target.value)}
-              required
             />
           </div>
 
@@ -201,4 +197,4 @@ const AddUser = () => {
   );
 };
 
-export default AddUser;
+export default EditUser;

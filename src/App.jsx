@@ -7,6 +7,7 @@ import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import AddUser from "./components/AddUser";
 import "react-toastify/dist/ReactToastify.css";
 import { ToastContainer } from "react-toastify";
+import EditUser from "./components/EditUser";
 
 const App = () => {
   return (
@@ -21,6 +22,7 @@ const App = () => {
           <Routes>
             <Route path="/" element={<UserList />} />
             <Route path="/add-user" element={<AddUser />} />
+            <Route path="/edit-user/:userId" element={<EditUser />} />
           </Routes>
         </div>
       </div>
