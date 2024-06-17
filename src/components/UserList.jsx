@@ -21,18 +21,22 @@ const UserList = () => {
         <div className="text-2xl ml-4 md:ml-8">Users</div>
         <div className="flex">
           <button
-            className="bg-[#641CC0] text-white p-2 md:p-[10px] rounded-l-md"
-            onClick={() => {
-              setIsGridView(false);
-            }}
+            className={classNames("p-2 md:p-[10px] rounded-l-md border-2", {
+              "bg-[#641CC0] text-white border-transparent": !isGridView,
+              "bg-white text-[#641CC0] border-gray-300": isGridView,
+            })}
+            onClick={() => setIsGridView(false)}
           >
             <ListViewIcon className="w-5 h-5" />
           </button>
           <button
-            className="bg-white p-2 rounded-r-md border-2 border-gray-300 ml-0"
+            className={classNames("p-2 md:p-[10px] rounded-r-md border-2", {
+              "bg-[#641CC0] text-white border-transparent": isGridView,
+              "bg-white text-[#641CC0] border-gray-300": !isGridView,
+            })}
             onClick={() => setIsGridView(true)}
           >
-            <GridViewIcon className="w-5 h-5 text-[#641CC0]" />
+            <GridViewIcon className="w-5 h-5" />
           </button>
           <button className="bg-[#641CC0] text-white p-2 rounded-md w-20 h-10 md:w-40 md:h-12 ml-3 md:ml-5 mr-5 md:mr-9">
             <span className="md:hidden">+ Add</span>
