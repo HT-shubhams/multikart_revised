@@ -2,11 +2,15 @@ import React, { useState } from "react";
 import useUserStore from "./useUserStore";
 import { formatDistanceToNow } from "date-fns";
 import { useNavigate } from "react-router-dom";
+import { DeleteModal } from "./DeleteModal";
+import { toast } from "react-toastify";
 
 const UserListView = () => {
   const users = useUserStore((state) => state.users);
   const navigate = useNavigate();
   const [selectedUsers, setSelectedUsers] = useState([]);
+  const [showModal, setShowModal] = useState(false);
+  const [userToDelete, setUserToDelete] = useState(null);
 
   const handleSelectAll = (e) => {
     if (e.target.checked) {
@@ -35,11 +39,28 @@ const UserListView = () => {
   const handleOptionChange = (userId, selectedOption) => {
     if (selectedOption === "Edit") {
       navigateToEditUser(userId);
+    } else if (selectedOption === "Delete") {
+      setShowModal(true);
+      setUserToDelete(userId);
     }
+  };
+
+  const handleDeleteUser = () => {
+    useUserStore.getState().deleteUser(userToDelete);
+    setShowModal(false);
+    navigate("/");
+    toast.error("User has been deleted successfully!");
+    console.log("User deleted!");
   };
 
   return (
     <div className="w-full overflow-x-auto mt-7 md:mt-10">
+      {showModal && (
+        <DeleteModal
+          onConfirm={handleDeleteUser}
+          onCancel={() => setShowModal(false)}
+        />
+      )}
       <table className="min-w-full divide-y divide-gray-200 font-poppins text-[#63666B]">
         <thead className="bg-gray-50">
           <tr>
@@ -60,19 +81,19 @@ const UserListView = () => {
             <th className="text-[14px] md:text-[16px] px-4 py-2 text-left">
               Email
             </th>
-            <th className="hidden md:table-cell text-[14px] md:text-[16px] px-4 py-2 text-left">
+            <th className="md:table-cell text-[14px] md:text-[16px] px-4 py-2 text-left">
               Last Login
             </th>
-            <th className="hidden md:table-cell text-[14px] md:text-[16px] px-4 py-2 text-left">
+            <th className="md:table-cell text-[14px] md:text-[16px] px-4 py-2 text-left">
               Phone
             </th>
-            <th className="hidden md:table-cell text-[14px] md:text-[16px] px-4 py-2 text-left">
+            <th className="md:table-cell text-[14px] md:text-[16px] px-4 py-2 text-left">
               Role
             </th>
-            <th className="hidden md:table-cell text-[14px] md:text-[16px] px-4 py-2 text-left">
+            <th className="md:table-cell text-[14px] md:text-[16px] px-4 py-2 text-left">
               Status
             </th>
-            <th className="hidden md:table-cell text-[14px] md:text-[16px] px-4 py-2 text-left">
+            <th className="md:table-cell text-[14px] md:text-[16px] px-4 py-2 text-left">
               Action
             </th>
           </tr>
@@ -104,19 +125,19 @@ const UserListView = () => {
               <td className="text-[14px] md:text-[16px] px-4 py-2 max-w-xs truncate">
                 {user.email}
               </td>
-              <td className="hidden md:table-cell text-[14px] md:text-[16px] px-4 py-2">
+              <td className="md:table-cell text-[14px] md:text-[16px] px-4 py-2">
                 {getLastLoginDisplay(user.lastLogin)}
               </td>
-              <td className="hidden md:table-cell text-[14px] md:text-[16px] px-4 py-2">
+              <td className="md:table-cell text-[14px] md:text-[16px] px-4 py-2">
                 {user.phone}
               </td>
-              <td className="hidden md:table-cell text-[14px] md:text-[16px] px-4 py-2">
+              <td className="md:table-cell text-[14px] md:text-[16px] px-4 py-2">
                 {user.role}
               </td>
-              <td className="hidden md:table-cell text-[14px] md:text-[16px] px-4 py-2">
+              <td className="md:table-cell text-[14px] md:text-[16px] px-4 py-2">
                 {user.status}
               </td>
-              <td className="hidden md:table-cell text-[14px] md:text-[16px] px-4 py-2">
+              <td className="md:table-cell text-[14px] md:text-[16px] px-4 py-2">
                 <select
                   className="bg-white border border-[#777a81] rounded-md w-24 h-8"
                   onChange={(e) => handleOptionChange(user.id, e.target.value)}

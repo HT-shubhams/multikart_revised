@@ -52,7 +52,7 @@ const AddUser = () => {
     setConfirmPassword("");
 
     navigate("/");
-    toast.success("User has been aded successfully!");
+    toast.success("User has been added successfully!");
   };
 
   return (

@@ -1,6 +1,6 @@
 import React from "react";
 
-export const DeleteModal = () => {
+export const DeleteModal = ({ onConfirm, onCancel }) => {
   return (
     <div className="fixed inset-0 flex items-center justify-center bg-gray-500 bg-opacity-50">
       <div className="border rounded-md mx-5 shadow-md p-4 w-full max-w-md bg-white">
@@ -14,12 +14,14 @@ export const DeleteModal = () => {
           <button
             type="button"
             className="w-20 h-10 md:w-32 md:h-12 bg-[#641cc0] text-white rounded-md"
+            onClick={onConfirm}
           >
             Delete
           </button>
           <button
             type="button"
             className="w-20 h-10 md:w-32 md:h-12 text-[#26282D] rounded-md border border-[#d3d3d3]"
+            onClick={onCancel}
           >
             Cancel
           </button>
