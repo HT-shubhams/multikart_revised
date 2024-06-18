@@ -5,8 +5,7 @@ import { useNavigate } from "react-router-dom";
 import { DeleteModal } from "./DeleteModal";
 import { toast } from "react-toastify";
 
-const UserListView = () => {
-  const users = useUserStore((state) => state.users);
+const UserListView = ({ users }) => {
   const navigate = useNavigate();
   const [selectedUsers, setSelectedUsers] = useState([]);
   const [showModal, setShowModal] = useState(false);

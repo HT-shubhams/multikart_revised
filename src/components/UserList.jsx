@@ -10,16 +10,28 @@ import {
 } from "../assets/icons";
 import UserListView from "./UserListView";
 import UserGridView from "./UserGridView";
+import useUserStore from "./useUserStore";
 
 const UserList = () => {
   const [isInputFocused, setIsInputFocused] = useState(false);
   const [isSearchExpanded, setIsSearchExpanded] = useState(false);
   const [isGridView, setIsGridView] = useState(true);
+  const [searchQuery, setSearchQuery] = useState("");
 
-  const navigate = useNavigate(); // Use the useNavigate hook
+  const users = useUserStore((state) => state.users);
+
+  const navigate = useNavigate();
+
   const navigateAddUser = () => {
     navigate("/add-user");
   };
+
+  const filteredUsers = users.filter(
+    (user) =>
+      user.firstName.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      user.lastName.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      user.email.toLowerCase().includes(searchQuery.toLowerCase())
+  );
 
   return (
     <div className="bg-[#F9F9F9]">
@@ -54,7 +66,7 @@ const UserList = () => {
         </div>
       </div>
       <div className="flex flex-col mt-4 md:mt-8 rounded-lg shadow-md mx-2 md:mx-9">
-        <div className="flex justify-between w-full">
+        <div className="flex justify-between w-full mt-2">
           <div className="flex space-x-3">
             <button className="flex p-2 border border-[#777a81] rounded-md items-center ml-5 md:ml-8">
               <SortByIcon className="md:mr-2" />
@@ -85,20 +97,29 @@ const UserList = () => {
                 placeholder="Search here"
                 className={classNames(
                   "bg-transparent outline-none text-black",
-                  { "hidden md:block": !isSearchExpanded }
+                  { "hidden md:block": !isSearchExpanded },
+                  {
+                    "w-20 md:w-48": !isSearchExpanded,
+                    "w-full": isSearchExpanded,
+                  }
                 )}
                 onBlur={() => {
                   setIsInputFocused(false);
                   setIsSearchExpanded(false);
                 }}
                 onFocus={() => setIsInputFocused(true)}
+                onChange={(e) => setSearchQuery(e.target.value)}
               />
             </div>
           </div>
         </div>
 
         <div className="flex">
-          {isGridView ? <UserGridView /> : <UserListView />}
+          {isGridView ? (
+            <UserGridView users={filteredUsers} />
+          ) : (
+            <UserListView users={filteredUsers} />
+          )}
         </div>
       </div>
     </div>
