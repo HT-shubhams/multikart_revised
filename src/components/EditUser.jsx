@@ -68,7 +68,7 @@ const EditUser = () => {
 
       <div className="border mx-5 md:mx-20 mt-7 md:mt-11 px-4 md:px-10 py-6 rounded-xl shadow-md shadow-bottom-left">
         <form onSubmit={handleSubmit} className="space-y-4">
-          <div className="flex flex-col md:flex-row md:items-center md:space-x-4">
+          <div className="flex flex-col md:flex-row md:items-center w-full">
             <label htmlFor="firstName" className="md:w-1/4">
               First Name <span className="text-red-500">*</span>
             </label>
@@ -83,7 +83,7 @@ const EditUser = () => {
             />
           </div>
 
-          <div className="flex flex-col md:flex-row md:items-center md:space-x-4">
+          <div className="flex flex-col md:flex-row md:items-center w-full">
             <label htmlFor="lastName" className="md:w-1/4">
               Last Name <span className="text-red-500">*</span>
             </label>
@@ -98,7 +98,7 @@ const EditUser = () => {
             />
           </div>
 
-          <div className="flex flex-col md:flex-row md:items-center md:space-x-4">
+          <div className="flex flex-col md:flex-row md:items-center w-full">
             <label htmlFor="email" className="md:w-1/4">
               Email <span className="text-red-500">*</span>
             </label>
@@ -113,7 +113,7 @@ const EditUser = () => {
             />
           </div>
 
-          <div className="flex flex-col md:flex-row md:items-center md:space-x-4">
+          <div className="flex flex-col md:flex-row md:items-center w-full">
             <label htmlFor="phone" className="md:w-1/4">
               Phone
             </label>
@@ -127,7 +127,7 @@ const EditUser = () => {
             />
           </div>
 
-          <div className="flex flex-col md:flex-row md:items-center md:space-x-4">
+          <div className="flex flex-col md:flex-row md:items-center w-full">
             <label htmlFor="role" className="md:w-1/4">
               Role
             </label>
@@ -142,7 +142,7 @@ const EditUser = () => {
             </select>
           </div>
 
-          <div className="flex flex-col md:flex-row md:items-center md:space-x-4">
+          <div className="flex flex-col md:flex-row md:items-center w-full">
             <label htmlFor="status" className="md:w-1/4">
               Status
             </label>
@@ -157,7 +157,7 @@ const EditUser = () => {
             </select>
           </div>
 
-          <div className="flex flex-col md:flex-row md:items-center md:space-x-4">
+          <div className="flex flex-col md:flex-row md:items-center w-full">
             <label htmlFor="password" className="md:w-1/4">
               Password
             </label>
@@ -171,7 +171,7 @@ const EditUser = () => {
             />
           </div>
 
-          <div className="flex flex-col md:flex-row md:items-center md:space-x-4">
+          <div className="flex flex-col md:flex-row md:items-center w-full">
             <label htmlFor="confirmPassword" className="md:w-1/4">
               Confirm Password
             </label>

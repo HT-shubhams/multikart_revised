@@ -9,8 +9,8 @@ const AddUser = () => {
   const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
-  const [role, setRole] = useState("User");
-  const [status, setStatus] = useState("Active");
+  const [role, setRole] = useState("");
+  const [status, setStatus] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const { users, lastUserId } = useUserStore();
@@ -68,9 +68,9 @@ const AddUser = () => {
         </div>
       </div>
 
-      <div className="border mx-5 md:mx-20 mt-7 md:mt-11 px-4 md:px-10 py-6 rounded-xl shadow-md shadow-bottom-left">
+      <div className="border mx-5 md:mx-20 mt-7 md:mt-11 px-4 md:px-10 py-6 rounded-xl shadow-md shadow-bottom-left ">
         <form onSubmit={handleSubmit} className="space-y-4">
-          <div className="flex flex-col md:flex-row md:items-center md:space-x-4">
+          <div className="flex flex-col md:flex-row md:items-center w-full">
             <label htmlFor="firstName" className="md:w-1/4">
               First Name <span className="text-red-500">*</span>
             </label>
@@ -79,13 +79,13 @@ const AddUser = () => {
               id="firstName"
               value={firstName}
               placeholder="First Name"
-              className="border border-[#c4c4c4] rounded-md w-full md:w-3/4 p-2 mt-1 md:mt-0"
+              className="border border-[#c4c4c4] rounded-md grow p-2 mt-1 md:mt-0"
               onChange={(e) => setFirstName(e.target.value)}
               required
             />
           </div>
 
-          <div className="flex flex-col md:flex-row md:items-center md:space-x-4">
+          <div className="flex flex-col md:flex-row md:items-center w-full">
             <label htmlFor="lastName" className="md:w-1/4">
               Last Name <span className="text-red-500">*</span>
             </label>
@@ -100,7 +100,7 @@ const AddUser = () => {
             />
           </div>
 
-          <div className="flex flex-col md:flex-row md:items-center md:space-x-4">
+          <div className="flex flex-col md:flex-row md:items-center w-full">
             <label htmlFor="email" className="md:w-1/4">
               Email <span className="text-red-500">*</span>
             </label>
@@ -115,7 +115,7 @@ const AddUser = () => {
             />
           </div>
 
-          <div className="flex flex-col md:flex-row md:items-center md:space-x-4">
+          <div className="flex flex-col md:flex-row md:items-center w-full">
             <label htmlFor="phone" className="md:w-1/4">
               Phone
             </label>
@@ -129,7 +129,7 @@ const AddUser = () => {
             />
           </div>
 
-          <div className="flex flex-col md:flex-row md:items-center md:space-x-4">
+          <div className="flex flex-col md:flex-row md:items-center w-full">
             <label htmlFor="role" className="md:w-1/4">
               Role
             </label>
@@ -139,12 +139,15 @@ const AddUser = () => {
               className="border border-[#c4c4c4] rounded-md w-full md:w-3/4 p-2 mt-1 md:mt-0"
               onChange={(e) => setRole(e.target.value)}
             >
+              <option value="" disabled selected>
+                Select Role
+              </option>
               <option value="User">User</option>
               <option value="Admin">Admin</option>
             </select>
           </div>
 
-          <div className="flex flex-col md:flex-row md:items-center md:space-x-4">
+          <div className="flex flex-col md:flex-row md:items-center w-full">
             <label htmlFor="status" className="md:w-1/4">
               Status
             </label>
@@ -154,12 +157,15 @@ const AddUser = () => {
               className="border border-[#c4c4c4] rounded-md w-full md:w-3/4 p-2 mt-1 md:mt-0"
               onChange={(e) => setStatus(e.target.value)}
             >
+              <option value="" disabled selected>
+                Select Status
+              </option>
               <option value="Active">Active</option>
               <option value="Inactive">Inactive</option>
             </select>
           </div>
 
-          <div className="flex flex-col md:flex-row md:items-center md:space-x-4">
+          <div className="flex flex-col md:flex-row md:items-center w-full">
             <label htmlFor="password" className="md:w-1/4">
               Password <span className="text-red-500">*</span>
             </label>
@@ -174,7 +180,7 @@ const AddUser = () => {
             />
           </div>
 
-          <div className="flex flex-col md:flex-row md:items-center md:space-x-4">
+          <div className="flex flex-col md:flex-row md:items-center w-full">
             <label htmlFor="confirmPassword" className="md:w-1/4">
               Confirm Password <span className="text-red-500">*</span>
             </label>
