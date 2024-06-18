@@ -1,23 +1,37 @@
 import React, { useState } from "react";
 import { ActiveDotIcon, InactiveDotIcon, OptionsIcon } from "../assets/icons";
 import { useNavigate } from "react-router-dom";
+import { DeleteModal } from "./DeleteModal";
+import { toast } from "react-toastify";
+import useUserStore from "./useUserStore";
 
 export default function UserCard({ user }) {
   const navigate = useNavigate();
   const [dropdownOpen, setDropdownOpen] = useState(false);
+  const [showModal, setShowModal] = useState(false);
 
   const navigateToEditUser = () => {
     navigate(`/edit-user/${user.id}`);
   };
 
   const handleDeleteUser = () => {
-    // Implement delete user logic here
-    console.log("User deleted:", user.id);
-    // Optionally, navigate to another route or refresh the list
+    setShowModal(true);
+    useUserStore.getState().deleteUser(user.id);
+    setShowModal(false);
+    toast.error("User has been deleted successfully!");
+    navigate("/");
   };
 
   return (
     <div className="relative flex items-center border border-[#E0E0E2] p-4 rounded-md bg-[#FAFAFA] w-full max-w-[370px]">
+      {showModal && (
+        <div className="fixed inset-0 flex items-center justify-center z-20">
+          <DeleteModal
+            onConfirm={handleDeleteUser}
+            onCancel={() => setShowModal(false)}
+          />
+        </div>
+      )}
       <div className="photo-container pr-4">
         <img
           src={user.photo}
@@ -35,7 +49,6 @@ export default function UserCard({ user }) {
         >
           {user.email}
         </p>
-
         <div className="flex items-center">
           {user.status === "Active" ? (
             <div className="flex items-center">
@@ -74,7 +87,7 @@ export default function UserCard({ user }) {
             </button>
             <button
               onClick={() => {
-                handleDeleteUser();
+                setShowModal(true);
                 setDropdownOpen(false);
               }}
               className="block px-4 py-2 text-gray-700 text-left hover:bg-gray-100 w-full"
