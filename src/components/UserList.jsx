@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
 import classNames from "classnames";
 import {
@@ -7,13 +7,14 @@ import {
   LeftArrowIcon,
   ListViewIcon,
   SearchIcon,
-  SortByIcon,
   RightArrowIcon,
 } from "../assets/icons";
 import UserListView from "./UserListView";
 import UserGridView from "./UserGridView";
 import useUserStore from "./useUserStore";
 import Pagination from "./Pagination";
+import SortByMenu from "./SortByMenu"; // Updated component name
+import SortByIcon from "../assets/icons/SortByIcon"; // Ensure this path matches where the SortByIcon component is located
 
 const UserList = () => {
   const [isInputFocused, setIsInputFocused] = useState(false);
@@ -22,6 +23,7 @@ const UserList = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState(10);
+  const [sortOption, setSortOption] = useState(""); // New state for sorting option
 
   const users = useUserStore((state) => state.users);
 
@@ -30,6 +32,11 @@ const UserList = () => {
   const navigateAddUser = () => {
     navigate("/add-user");
   };
+
+  // Memoize the sorting function using useCallback
+  const handleSortOptionChange = useCallback((option) => {
+    setSortOption(option);
+  }, []);
 
   // Paginate the initial list of users
   const totalRecords = users.length;
@@ -81,11 +88,11 @@ const UserList = () => {
       </div>
       <div className="mx-2 mt-4 flex flex-col rounded-lg shadow-md md:mx-9 md:mt-8">
         <div className="mt-2 flex w-full justify-between">
-          <div className="flex space-x-3">
-            <button className="ml-5 flex items-center rounded-md border border-[#777a81] p-2 md:ml-8">
-              <SortByIcon className="md:mr-2" />
-              <span className="hidden md:inline">Sort By</span>
-            </button>
+          <div className="flex space-x-3 pl-5 md:pl-8">
+            <SortByMenu
+              sortOption={sortOption}
+              setSortOption={handleSortOptionChange}
+            />
             <button className="flex rounded-md border border-[#777a81] p-2">
               <FilterByIcon className="my-auto md:mr-1" />
               <span className="hidden md:inline">Filter By</span>
