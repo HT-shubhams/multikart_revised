@@ -127,7 +127,7 @@ const useUserStore = create((set) => ({
   updateUser: (userId, updatedUser) =>
     set((state) => ({
       users: state.users.map((user) =>
-        user.id === userId ? { ...user, ...updatedUser } : user
+        user.id === userId ? { ...user, ...updatedUser } : user,
       ),
     })),
 
@@ -139,7 +139,7 @@ const useUserStore = create((set) => ({
   updateUserStatus: (userId, status) =>
     set((state) => ({
       users: state.users.map((user) =>
-        user.id === userId ? { ...user, status } : user
+        user.id === userId ? { ...user, status } : user,
       ),
     })),
 }));

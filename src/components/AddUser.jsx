@@ -56,16 +56,16 @@ const AddUser = () => {
   };
 
   return (
-    <div className="bg-[#f9f9f9] min-h-screen">
-      <div className="mt-8 md:mt-11 md:flex md:justify-between md:items-center md:mr-12 text-[#63666b]">
-        <div className="text-2xl ml-4 md:ml-8 text-black">Users</div>
-        <div className="flex ml-4 mt-3 md:mt-0 md:ml-8 items-center text-sm md:text-lg">
+    <div className="min-h-screen bg-[#f9f9f9]">
+      <div className="mt-8 text-[#63666b] md:mr-12 md:mt-11 md:flex md:items-center md:justify-between">
+        <div className="ml-4 text-2xl text-black md:ml-8">Users</div>
+        <div className="ml-4 mt-3 flex items-center text-sm md:ml-8 md:mt-0 md:text-lg">
           <div className="pr-2 md:pr-4" onClick={() => navigate("/")}>
             <HomeIcon />
           </div>
           /{" "}
           <span
-            className="px-2 md:px-4 text-black"
+            className="px-2 text-black md:px-4"
             onClick={() => navigate("/")}
           >
             Users
@@ -74,9 +74,9 @@ const AddUser = () => {
         </div>
       </div>
 
-      <div className="border mx-5 md:mx-20 mt-7 md:mt-11 px-4 md:px-10 py-6 rounded-xl shadow-md shadow-bottom-left ">
+      <div className="shadow-bottom-left mx-5 mt-7 rounded-xl border px-4 py-6 shadow-md md:mx-20 md:mt-11 md:px-10">
         <form onSubmit={handleSubmit} className="space-y-4">
-          <div className="flex flex-col md:flex-row md:items-center w-full">
+          <div className="flex w-full flex-col md:flex-row md:items-center">
             <label htmlFor="firstName" className="md:w-1/4">
               First Name <span className="text-red-500">*</span>
             </label>
@@ -85,13 +85,13 @@ const AddUser = () => {
               id="firstName"
               value={firstName}
               placeholder="First Name"
-              className="border border-[#c4c4c4] rounded-md grow p-2 mt-1 md:mt-0"
+              className="mt-1 grow rounded-md border border-[#c4c4c4] p-2 md:mt-0"
               onChange={(e) => setFirstName(e.target.value)}
               required
             />
           </div>
 
-          <div className="flex flex-col md:flex-row md:items-center w-full">
+          <div className="flex w-full flex-col md:flex-row md:items-center">
             <label htmlFor="lastName" className="md:w-1/4">
               Last Name <span className="text-red-500">*</span>
             </label>
@@ -100,13 +100,13 @@ const AddUser = () => {
               id="lastName"
               value={lastName}
               placeholder="Last Name"
-              className="border border-[#c4c4c4] rounded-md w-full md:w-3/4 p-2 mt-1 md:mt-0"
+              className="mt-1 w-full rounded-md border border-[#c4c4c4] p-2 md:mt-0 md:w-3/4"
               onChange={(e) => setLastName(e.target.value)}
               required
             />
           </div>
 
-          <div className="flex flex-col md:flex-row md:items-center w-full">
+          <div className="flex w-full flex-col md:flex-row md:items-center">
             <label htmlFor="email" className="md:w-1/4">
               Email <span className="text-red-500">*</span>
             </label>
@@ -115,13 +115,13 @@ const AddUser = () => {
               id="email"
               value={email}
               placeholder="Email"
-              className="border border-[#c4c4c4] rounded-md w-full md:w-3/4 p-2 mt-1 md:mt-0"
+              className="mt-1 w-full rounded-md border border-[#c4c4c4] p-2 md:mt-0 md:w-3/4"
               onChange={(e) => setEmail(e.target.value)}
               required
             />
           </div>
 
-          <div className="flex flex-col md:flex-row md:items-center w-full">
+          <div className="flex w-full flex-col md:flex-row md:items-center">
             <label htmlFor="phone" className="md:w-1/4">
               Phone
             </label>
@@ -130,19 +130,19 @@ const AddUser = () => {
               id="phone"
               value={phone}
               placeholder="Phone"
-              className="border border-[#c4c4c4] rounded-md w-full md:w-3/4 p-2 mt-1 md:mt-0"
+              className="mt-1 w-full rounded-md border border-[#c4c4c4] p-2 md:mt-0 md:w-3/4"
               onChange={(e) => setPhone(e.target.value)}
             />
           </div>
 
-          <div className="flex flex-col md:flex-row md:items-center w-full">
+          <div className="flex w-full flex-col md:flex-row md:items-center">
             <label htmlFor="role" className="md:w-1/4">
               Role
             </label>
             <select
               id="role"
               value={role}
-              className="border border-[#c4c4c4] rounded-md w-full md:w-3/4 p-2 mt-1 md:mt-0"
+              className="mt-1 w-full rounded-md border border-[#c4c4c4] p-2 md:mt-0 md:w-3/4"
               onChange={(e) => setRole(e.target.value)}
             >
               <option value="" disabled selected>
@@ -153,14 +153,14 @@ const AddUser = () => {
             </select>
           </div>
 
-          <div className="flex flex-col md:flex-row md:items-center w-full">
+          <div className="flex w-full flex-col md:flex-row md:items-center">
             <label htmlFor="status" className="md:w-1/4">
               Status
             </label>
             <select
               id="status"
               value={status}
-              className="border border-[#c4c4c4] rounded-md w-full md:w-3/4 p-2 mt-1 md:mt-0"
+              className="mt-1 w-full rounded-md border border-[#c4c4c4] p-2 md:mt-0 md:w-3/4"
               onChange={(e) => setStatus(e.target.value)}
             >
               <option value="" disabled selected>
@@ -171,7 +171,7 @@ const AddUser = () => {
             </select>
           </div>
 
-          <div className="flex flex-col md:flex-row md:items-center w-full">
+          <div className="flex w-full flex-col md:flex-row md:items-center">
             <label htmlFor="password" className="md:w-1/4">
               Password <span className="text-red-500">*</span>
             </label>
@@ -180,13 +180,13 @@ const AddUser = () => {
               id="password"
               value={password}
               placeholder="Password"
-              className="border border-[#c4c4c4] rounded-md w-full md:w-3/4 p-2 mt-1 md:mt-0"
+              className="mt-1 w-full rounded-md border border-[#c4c4c4] p-2 md:mt-0 md:w-3/4"
               onChange={(e) => setPassword(e.target.value)}
               required
             />
           </div>
 
-          <div className="flex flex-col md:flex-row md:items-center w-full">
+          <div className="flex w-full flex-col md:flex-row md:items-center">
             <label htmlFor="confirmPassword" className="md:w-1/4">
               Confirm Password <span className="text-red-500">*</span>
             </label>
@@ -195,7 +195,7 @@ const AddUser = () => {
               id="confirmPassword"
               value={confirmPassword}
               placeholder="Confirm Password"
-              className="border border-[#c4c4c4] rounded-md w-full md:w-3/4 p-2 mt-1 md:mt-0"
+              className="mt-1 w-full rounded-md border border-[#c4c4c4] p-2 md:mt-0 md:w-3/4"
               onChange={(e) => setConfirmPassword(e.target.value)}
               required
             />
@@ -203,7 +203,7 @@ const AddUser = () => {
 
           <button
             type="submit"
-            className="bg-[#641CC0] text-white p-2 rounded-md mt-4 w-28 h-10 md:w-28 md:h-12 text-base md:text-xl"
+            className="mt-4 h-10 w-28 rounded-md bg-[#641CC0] p-2 text-base text-white md:h-12 md:w-28 md:text-xl"
           >
             Save
           </button>

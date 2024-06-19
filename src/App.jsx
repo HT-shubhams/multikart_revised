@@ -14,7 +14,7 @@ const App = () => {
     <Router>
       <div className="font-poppins">
         <Sidebar />
-        <div className="hidden md:block md:ml-64">
+        <div className="hidden md:ml-64 md:block">
           <Header />
         </div>
         <div className="md:ml-64">

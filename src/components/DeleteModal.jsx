@@ -3,24 +3,24 @@ import React from "react";
 export const DeleteModal = ({ onConfirm, onCancel }) => {
   return (
     <div className="fixed inset-0 flex items-center justify-center bg-gray-500 bg-opacity-50">
-      <div className="border rounded-md mx-5 shadow-md p-4 w-full max-w-md bg-white">
-        <div className="font-medium text-lg md:text-2xl text-[#26282D] text-center mb-2">
+      <div className="mx-5 w-full max-w-md rounded-md border bg-white p-4 shadow-md">
+        <div className="mb-2 text-center text-lg font-medium text-[#26282D] md:text-2xl">
           Delete Confirmation
         </div>
-        <div className="text-sm md:text-lg text-center mb-4">
+        <div className="mb-4 text-center text-sm md:text-lg">
           Are you sure you want to delete this User?
         </div>
         <div className="flex justify-center space-x-3">
           <button
             type="button"
-            className="w-20 h-10 md:w-32 md:h-12 bg-[#641cc0] text-white rounded-md"
+            className="h-10 w-20 rounded-md bg-[#641cc0] text-white md:h-12 md:w-32"
             onClick={onConfirm}
           >
             Delete
           </button>
           <button
             type="button"
-            className="w-20 h-10 md:w-32 md:h-12 text-[#26282D] rounded-md border border-[#d3d3d3]"
+            className="h-10 w-20 rounded-md border border-[#d3d3d3] text-[#26282D] md:h-12 md:w-32"
             onClick={onCancel}
           >
             Cancel
