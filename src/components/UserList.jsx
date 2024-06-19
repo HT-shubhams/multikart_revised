@@ -8,17 +8,20 @@ import {
   ListViewIcon,
   SearchIcon,
   SortByIcon,
+  RightArrowIcon,
 } from "../assets/icons";
 import UserListView from "./UserListView";
 import UserGridView from "./UserGridView";
 import useUserStore from "./useUserStore";
-import { RightArrowIcon } from "../assets/icons/RightArrowIcon";
+import Pagination from "./Pagination";
 
 const UserList = () => {
   const [isInputFocused, setIsInputFocused] = useState(false);
   const [isSearchExpanded, setIsSearchExpanded] = useState(false);
   const [isGridView, setIsGridView] = useState(true);
   const [searchQuery, setSearchQuery] = useState("");
+  const [currentPage, setCurrentPage] = useState(1);
+  const [itemsPerPage, setItemsPerPage] = useState(10);
 
   const users = useUserStore((state) => state.users);
 
@@ -34,6 +37,13 @@ const UserList = () => {
       user.lastName.toLowerCase().includes(searchQuery.toLowerCase()) ||
       user.email.toLowerCase().includes(searchQuery.toLowerCase()),
   );
+
+  const totalRecords = filteredUsers.length;
+  const startIndex = (currentPage - 1) * itemsPerPage;
+  const endIndex = startIndex + itemsPerPage;
+  const paginatedUsers = filteredUsers.slice(startIndex, endIndex);
+
+  const totalPages = Math.ceil(totalRecords / itemsPerPage);
 
   return (
     <div className="bg-[#F9F9F9]">
@@ -118,28 +128,22 @@ const UserList = () => {
 
         <div className="flex">
           {isGridView ? (
-            <UserGridView users={filteredUsers} />
+            <UserGridView users={paginatedUsers} />
           ) : (
-            <UserListView users={filteredUsers} />
+            <UserListView users={paginatedUsers} />
           )}
         </div>
 
-        <div className="m-2 flex text-[#63666b]">
-          <div className="text-xs font-normal md:text-base">
-            <span>Items per page:</span>
-            <input
-              type="number"
-              className="w-7 border-b-2 border-[#e5e5e5] md:w-14"
-            />
-          </div>
-          <div className="text-xs font-normal md:text-base">
-            records will be displayed like 1-10
-          </div>
-          <div className="flex">
-            <LeftArrowIcon />
-            <RightArrowIcon />
-          </div>
-        </div>
+        <Pagination
+          currentPage={currentPage}
+          totalRecords={totalRecords}
+          totalPages={totalPages}
+          onPageChange={setCurrentPage}
+          itemsPerPage={itemsPerPage}
+          onItemsPerPageChange={setItemsPerPage}
+          LeftArrowIcon={LeftArrowIcon}
+          RightArrowIcon={RightArrowIcon}
+        />
       </div>
     </div>
   );
