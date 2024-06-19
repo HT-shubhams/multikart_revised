@@ -12,3 +12,5 @@ export * from "./SearchIcon";
 export * from "./HomeIcon";
 export * from "./NextIcon";
 export * from "./PreviousIcon";
+export * from "./LeftArrowIcon";
+export * from "./RightArrowIcon";
