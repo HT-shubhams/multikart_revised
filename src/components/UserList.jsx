@@ -31,19 +31,21 @@ const UserList = () => {
     navigate("/add-user");
   };
 
-  const filteredUsers = users.filter(
+  // Paginate the initial list of users
+  const totalRecords = users.length;
+  const totalPages = Math.ceil(totalRecords / itemsPerPage);
+
+  const startIndex = (currentPage - 1) * itemsPerPage;
+  const endIndex = startIndex + itemsPerPage;
+  const paginatedUsers = users.slice(startIndex, endIndex);
+
+  // Filter paginated users based on search query
+  const filteredUsers = paginatedUsers.filter(
     (user) =>
       user.firstName.toLowerCase().includes(searchQuery.toLowerCase()) ||
       user.lastName.toLowerCase().includes(searchQuery.toLowerCase()) ||
       user.email.toLowerCase().includes(searchQuery.toLowerCase()),
   );
-
-  const totalRecords = filteredUsers.length;
-  const startIndex = (currentPage - 1) * itemsPerPage;
-  const endIndex = startIndex + itemsPerPage;
-  const paginatedUsers = filteredUsers.slice(startIndex, endIndex);
-
-  const totalPages = Math.ceil(totalRecords / itemsPerPage);
 
   return (
     <div className="bg-[#F9F9F9]">
@@ -128,9 +130,9 @@ const UserList = () => {
 
         <div className="flex">
           {isGridView ? (
-            <UserGridView users={paginatedUsers} />
+            <UserGridView users={filteredUsers} />
           ) : (
-            <UserListView users={paginatedUsers} />
+            <UserListView users={filteredUsers} />
           )}
         </div>
 
