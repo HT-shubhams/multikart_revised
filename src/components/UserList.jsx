@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from "react";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import classNames from "classnames";
 import {
@@ -13,8 +13,7 @@ import UserListView from "./UserListView";
 import UserGridView from "./UserGridView";
 import useUserStore from "./useUserStore";
 import Pagination from "./Pagination";
-import SortByMenu from "./SortByMenu"; // Updated component name
-import SortByIcon from "../assets/icons/SortByIcon"; // Ensure this path matches where the SortByIcon component is located
+import SortByMenu from "./SortByMenu";
 
 const UserList = () => {
   const [isInputFocused, setIsInputFocused] = useState(false);
@@ -23,22 +22,20 @@ const UserList = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState(10);
-  const [sortOption, setSortOption] = useState(""); // New state for sorting option
+  const [sortOption, setSortOption] = useState("");
 
   const users = useUserStore((state) => state.users);
-
   const navigate = useNavigate();
 
   const navigateAddUser = () => {
     navigate("/add-user");
   };
 
-  // Memoize the sorting function using useCallback
-  const handleSortOptionChange = useCallback((option) => {
+  const handleSortOptionChange = (option) => {
     setSortOption(option);
-  }, []);
+  };
 
-  // Paginate the initial list of users
+  // paginate the initial list of users
   const totalRecords = users.length;
   const totalPages = Math.ceil(totalRecords / itemsPerPage);
 
@@ -46,13 +43,34 @@ const UserList = () => {
   const endIndex = startIndex + itemsPerPage;
   const paginatedUsers = users.slice(startIndex, endIndex);
 
-  // Filter paginated users based on search query
+  // filter paginated users based on search query
   const filteredUsers = paginatedUsers.filter(
     (user) =>
       user.firstName.toLowerCase().includes(searchQuery.toLowerCase()) ||
       user.lastName.toLowerCase().includes(searchQuery.toLowerCase()) ||
       user.email.toLowerCase().includes(searchQuery.toLowerCase()),
   );
+
+  // sorting
+  let sortedUsers = [...filteredUsers];
+  switch (sortOption) {
+    case "A to Z":
+      sortedUsers.sort((a, b) => a.firstName.localeCompare(b.firstName));
+      break;
+    case "Z to A":
+      sortedUsers.sort((a, b) => b.firstName.localeCompare(a.firstName));
+      break;
+    case "Created Date":
+      sortedUsers.sort(
+        (a, b) => new Date(b.createdDate) - new Date(a.createdDate),
+      );
+      break;
+    case "Last Updated":
+      sortedUsers.sort((a, b) => new Date(b.lastLogin) - new Date(a.lastLogin));
+      break;
+    default:
+      break;
+  }
 
   return (
     <div className="bg-[#F9F9F9]">
@@ -137,9 +155,9 @@ const UserList = () => {
 
         <div className="flex">
           {isGridView ? (
-            <UserGridView users={filteredUsers} />
+            <UserGridView users={sortedUsers} />
           ) : (
-            <UserListView users={filteredUsers} />
+            <UserListView users={sortedUsers} />
           )}
         </div>
 

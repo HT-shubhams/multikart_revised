@@ -93,38 +93,38 @@ const SortByMenu = ({ sortOption, setSortOption }) => {
                     style={{ paddingRight: "20px" }} // Adjusted padding for reserved space
                   >
                     <MenuItem
-                      onClick={() => handleMenuItemClick("Option 1")}
+                      onClick={() => handleMenuItemClick("Last Updated")}
                       className="relative" // Reserved space class for alignment
                     >
                       Last Updated
-                      {isSelected("Option 1") && (
+                      {isSelected("Last Updated") && (
                         <RightTickIcon className="absolute -right-4 h-3 w-4 text-[#0AD22A]" />
                       )}
                     </MenuItem>
                     <MenuItem
-                      onClick={() => handleMenuItemClick("Option 2")}
+                      onClick={() => handleMenuItemClick("Created Date")}
                       className="relative"
                     >
                       Created Date
-                      {isSelected("Option 2") && (
+                      {isSelected("Created Date") && (
                         <RightTickIcon className="absolute -right-4 h-3 w-4 text-[#0AD22A]" />
                       )}
                     </MenuItem>
                     <MenuItem
-                      onClick={() => handleMenuItemClick("Option 3")}
+                      onClick={() => handleMenuItemClick("A to Z")}
                       className="relative"
                     >
                       A to Z
-                      {isSelected("Option 3") && (
+                      {isSelected("A to Z") && (
                         <RightTickIcon className="absolute -right-4 h-3 w-4 text-[#0AD22A]" />
                       )}
                     </MenuItem>
                     <MenuItem
-                      onClick={() => handleMenuItemClick("Option 4")}
+                      onClick={() => handleMenuItemClick("Z to A")}
                       className="relative"
                     >
                       Z to A
-                      {isSelected("Option 4") && (
+                      {isSelected("Z to A") && (
                         <RightTickIcon className="absolute -right-4 h-3 w-4 text-[#0AD22A]" />
                       )}
                     </MenuItem>

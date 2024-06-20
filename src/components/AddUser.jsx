@@ -38,6 +38,7 @@ const AddUser = () => {
       role,
       status,
       lastLogin: new Date().toISOString(),
+      createdDate: new Date().toISOString(),
     };
 
     addUser(newUser);
