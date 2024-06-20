@@ -14,7 +14,7 @@ import UserGridView from "./UserGridView";
 import useUserStore from "./useUserStore";
 import Pagination from "./Pagination";
 import SortByMenu from "./SortByMenu";
-import Sort from "./Sort";
+import userSort from "../utils/userSort";
 
 const UserList = () => {
   const [isInputFocused, setIsInputFocused] = useState(false);
@@ -55,7 +55,9 @@ const UserList = () => {
   );
 
   // sort filtered users based on sort option here using useMemo
-  const sortedUsers = Sort({ filteredUsers, sortOption });
+  const sortedUsers = useMemo(() => {
+    return userSort({ filteredUsers, sortOption });
+  }, [filteredUsers, sortOption]);
 
   return (
     <div className="bg-[#F9F9F9]">
