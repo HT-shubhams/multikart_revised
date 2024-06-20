@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useCallback, useMemo } from "react";
 import { useNavigate } from "react-router-dom";
 import classNames from "classnames";
 import {
@@ -14,6 +14,7 @@ import UserGridView from "./UserGridView";
 import useUserStore from "./useUserStore";
 import Pagination from "./Pagination";
 import SortByMenu from "./SortByMenu";
+import Sort from "./Sort";
 
 const UserList = () => {
   const [isInputFocused, setIsInputFocused] = useState(false);
@@ -25,15 +26,17 @@ const UserList = () => {
   const [sortOption, setSortOption] = useState("");
 
   const users = useUserStore((state) => state.users);
+
   const navigate = useNavigate();
 
   const navigateAddUser = () => {
     navigate("/add-user");
   };
 
-  const handleSortOptionChange = (option) => {
+  // memoize the sorting function using useCallback
+  const handleSortOptionChange = useCallback((option) => {
     setSortOption(option);
-  };
+  }, []);
 
   // paginate the initial list of users
   const totalRecords = users.length;
@@ -51,26 +54,8 @@ const UserList = () => {
       user.email.toLowerCase().includes(searchQuery.toLowerCase()),
   );
 
-  // sorting
-  let sortedUsers = [...filteredUsers];
-  switch (sortOption) {
-    case "A to Z":
-      sortedUsers.sort((a, b) => a.firstName.localeCompare(b.firstName));
-      break;
-    case "Z to A":
-      sortedUsers.sort((a, b) => b.firstName.localeCompare(a.firstName));
-      break;
-    case "Created Date":
-      sortedUsers.sort(
-        (a, b) => new Date(b.createdDate) - new Date(a.createdDate),
-      );
-      break;
-    case "Last Updated":
-      sortedUsers.sort((a, b) => new Date(b.lastLogin) - new Date(a.lastLogin));
-      break;
-    default:
-      break;
-  }
+  // sort filtered users based on sort option here using useMemo
+  const sortedUsers = Sort({ filteredUsers, sortOption });
 
   return (
     <div className="bg-[#F9F9F9]">
