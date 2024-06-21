@@ -1,4 +1,4 @@
-const userSort = ({ filteredUsers, sortOption }) => {
+export const userSort = ({ filteredUsers, sortOption }) => {
   switch (sortOption) {
     case "A to Z":
       filteredUsers.sort((a, b) => a.firstName.localeCompare(b.firstName));
@@ -16,8 +16,13 @@ const userSort = ({ filteredUsers, sortOption }) => {
         (a, b) => new Date(b.lastLogin) - new Date(a.lastLogin),
       );
       break;
+    default:
+      break;
   }
   return filteredUsers;
 };
 
-export default userSort;
+export const filterByRole = ({ users, filterOption }) => {
+  if (!filterOption) return users;
+  return users.filter((user) => user.role === filterOption);
+};

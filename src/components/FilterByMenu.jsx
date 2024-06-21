@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import ClickAwayListener from "@mui/material/ClickAwayListener";
 import Grow from "@mui/material/Grow";
 import Paper from "@mui/material/Paper";
@@ -6,22 +6,21 @@ import Popper from "@mui/material/Popper";
 import MenuItem from "@mui/material/MenuItem";
 import MenuList from "@mui/material/MenuList";
 import Stack from "@mui/material/Stack";
-import SortByIcon from "../assets/icons/SortByIcon";
-import { RightTickIcon } from "../assets/icons";
+import { FilterByIcon, RightTickIcon } from "../assets/icons";
 
-const SortByMenu = ({ sortOption, setSortOption }) => {
+const FilterByMenu = ({ filterOption, setFilterOption }) => {
   const [open, setOpen] = useState(false);
-  const anchorRef = useRef(null);
+  const [selectedOption, setSelectedOption] = useState(null);
+  const [anchorEl, setAnchorEl] = useState(null);
 
   const handleToggle = () => {
     setOpen((prevOpen) => !prevOpen);
   };
 
   const handleClose = (event) => {
-    if (anchorRef.current && anchorRef.current.contains(event.target)) {
+    if (anchorEl && anchorEl.contains(event.target)) {
       return;
     }
-
     setOpen(false);
   };
 
@@ -35,39 +34,51 @@ const SortByMenu = ({ sortOption, setSortOption }) => {
   };
 
   const handleMenuItemClick = (option) => {
-    setSortOption(option);
+    if (selectedOption === option) {
+      setSelectedOption(null);
+      setFilterOption(null);
+    } else {
+      setSelectedOption(option);
+      setFilterOption(option);
+    }
     setOpen(false);
   };
 
-  const isSelected = (option) => option === sortOption;
+  const handleIconClick = (event) => {
+    setAnchorEl(event.currentTarget);
+    setOpen((prevOpen) => !prevOpen);
+  };
 
-  const prevOpen = useRef(open);
+  const isSelected = (option) => selectedOption === option;
+
   useEffect(() => {
-    if (prevOpen.current === true && open === false) {
-      anchorRef.current.focus();
+    if (!open) {
+      setAnchorEl(null);
     }
-
-    prevOpen.current = open;
   }, [open]);
 
   return (
     <Stack direction="row" spacing={2}>
       <div>
         <button
-          ref={anchorRef}
           id="composition-button"
           aria-controls={open ? "composition-menu" : undefined}
           aria-expanded={open ? "true" : undefined}
           aria-haspopup="true"
-          onClick={handleToggle}
-          className="flex rounded-md border border-[#777a81] p-2"
+          onClick={handleIconClick}
+          className={`flex rounded-md border border-[#777a81] p-2 ${
+            selectedOption ? "bg-[#d3cfe5]" : ""
+          }`}
         >
-          <SortByIcon className="my-1 md:mr-1" />
-          <span className="hidden md:inline">Sort By</span>
+          <FilterByIcon
+            className="my-1 md:mr-1"
+            style={{ cursor: "pointer" }}
+          />
+          <span className="hidden md:inline">Filter By</span>
         </button>
         <Popper
           open={open}
-          anchorEl={anchorRef.current}
+          anchorEl={anchorEl}
           role={undefined}
           placement="bottom-start"
           transition
@@ -90,41 +101,23 @@ const SortByMenu = ({ sortOption, setSortOption }) => {
                     aria-labelledby="composition-button"
                     onKeyDown={handleListKeyDown}
                     className="text-xs text-[#63666b] md:text-sm"
-                    style={{ paddingRight: "20px" }} // Adjusted padding for reserved space
+                    style={{ paddingRight: "20px" }}
                   >
                     <MenuItem
-                      onClick={() => handleMenuItemClick("Last Updated")}
-                      className="relative" // Reserved space class for alignment
+                      onClick={() => handleMenuItemClick("User")}
+                      className="relative"
                     >
-                      Last Updated
-                      {isSelected("Last Updated") && (
+                      User
+                      {isSelected("User") && (
                         <RightTickIcon className="absolute -right-4 h-3 w-4 text-[#0AD22A]" />
                       )}
                     </MenuItem>
                     <MenuItem
-                      onClick={() => handleMenuItemClick("Created Date")}
+                      onClick={() => handleMenuItemClick("Admin")}
                       className="relative"
                     >
-                      Created Date
-                      {isSelected("Created Date") && (
-                        <RightTickIcon className="absolute -right-4 h-3 w-4 text-[#0AD22A]" />
-                      )}
-                    </MenuItem>
-                    <MenuItem
-                      onClick={() => handleMenuItemClick("A to Z")}
-                      className="relative"
-                    >
-                      A to Z
-                      {isSelected("A to Z") && (
-                        <RightTickIcon className="absolute -right-4 h-3 w-4 text-[#0AD22A]" />
-                      )}
-                    </MenuItem>
-                    <MenuItem
-                      onClick={() => handleMenuItemClick("Z to A")}
-                      className="relative"
-                    >
-                      Z to A
-                      {isSelected("Z to A") && (
+                      Admin
+                      {isSelected("Admin") && (
                         <RightTickIcon className="absolute -right-4 h-3 w-4 text-[#0AD22A]" />
                       )}
                     </MenuItem>
@@ -139,4 +132,4 @@ const SortByMenu = ({ sortOption, setSortOption }) => {
   );
 };
 
-export default SortByMenu;
+export default FilterByMenu;

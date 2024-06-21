@@ -2,7 +2,6 @@ import React, { useState, useCallback, useMemo } from "react";
 import { useNavigate } from "react-router-dom";
 import classNames from "classnames";
 import {
-  FilterByIcon,
   GridViewIcon,
   LeftArrowIcon,
   ListViewIcon,
@@ -14,7 +13,8 @@ import UserGridView from "./UserGridView";
 import useUserStore from "./useUserStore";
 import Pagination from "./Pagination";
 import SortByMenu from "./SortByMenu";
-import userSort from "../utils/userFunctions";
+import { userSort, filterByRole } from "../utils/userFunctions";
+import FilterByMenu from "./FilterByMenu";
 
 const UserList = () => {
   const [isInputFocused, setIsInputFocused] = useState(false);
@@ -23,7 +23,8 @@ const UserList = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState(10);
-  const [sortOption, setSortOption] = useState("");
+  const [sortOption, setSortOption] = useState("Created Date");
+  const [filterOption, setFilterOption] = useState("");
 
   const users = useUserStore((state) => state.users);
 
@@ -38,6 +39,11 @@ const UserList = () => {
     setSortOption(option);
   }, []);
 
+  // memoize the filter function using useCallback
+  const handleFilterOptionChange = useCallback((option) => {
+    setFilterOption(option);
+  }, []);
+
   // paginate the initial list of users
   const totalRecords = users.length;
   const totalPages = Math.ceil(totalRecords / itemsPerPage);
@@ -47,20 +53,24 @@ const UserList = () => {
   const paginatedUsers = users.slice(startIndex, endIndex);
 
   // filter paginated users based on search query
-  const filteredUsers = useCallback(
-    paginatedUsers.filter(
+  const filteredUsers = useMemo(() => {
+    return paginatedUsers.filter(
       (user) =>
         user.firstName.toLowerCase().includes(searchQuery.toLowerCase()) ||
         user.lastName.toLowerCase().includes(searchQuery.toLowerCase()) ||
         user.email.toLowerCase().includes(searchQuery.toLowerCase()),
-    ),
-    [itemsPerPage, paginatedUsers, searchQuery],
-  );
+    );
+  }, [paginatedUsers, searchQuery]);
 
   // sort filtered users based on sort option here using useMemo
   const sortedUsers = useMemo(() => {
     return userSort({ filteredUsers, sortOption });
   }, [filteredUsers, sortOption]);
+
+  // filter sorted users based on filter option here using useMemo by their role
+  const filteredUsersByRole = useMemo(() => {
+    return filterByRole({ users: sortedUsers, filterOption });
+  }, [sortedUsers, filterOption]);
 
   return (
     <div className="bg-[#F9F9F9]">
@@ -101,10 +111,10 @@ const UserList = () => {
               sortOption={sortOption}
               setSortOption={handleSortOptionChange}
             />
-            <button className="flex rounded-md border border-[#777a81] p-2">
-              <FilterByIcon className="my-auto md:mr-1" />
-              <span className="hidden md:inline">Filter By</span>
-            </button>
+            <FilterByMenu
+              filterOption={filterOption}
+              setFilterOption={handleFilterOptionChange}
+            />
           </div>
 
           <div className="mr-5 flex items-center md:mr-7">
@@ -145,9 +155,9 @@ const UserList = () => {
 
         <div className="flex">
           {isGridView ? (
-            <UserGridView users={sortedUsers} />
+            <UserGridView users={filteredUsersByRole} />
           ) : (
-            <UserListView users={sortedUsers} />
+            <UserListView users={filteredUsersByRole} />
           )}
         </div>
 
