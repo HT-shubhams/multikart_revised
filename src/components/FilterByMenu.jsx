@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
 import ClickAwayListener from "@mui/material/ClickAwayListener";
 import Grow from "@mui/material/Grow";
 import Paper from "@mui/material/Paper";
@@ -11,14 +12,26 @@ import { FilterByIcon, RightTickIcon } from "../assets/icons";
 const FilterByMenu = ({ filterOption, setFilterOption }) => {
   const [open, setOpen] = useState(false);
   const [selectedOption, setSelectedOption] = useState(null);
-  const [anchorEl, setAnchorEl] = useState(null);
+  const anchorRef = useRef(null);
+  const location = useLocation();
+  const navigate = useNavigate();
 
-  const handleToggle = () => {
-    setOpen((prevOpen) => !prevOpen);
-  };
+  useEffect(() => {
+    const params = new URLSearchParams(location.search);
+    const selected = params.get("filterOption");
+    // console.log(selected);
+
+    if (selected) {
+      setSelectedOption(selected);
+      setFilterOption(selected);
+    } else {
+      setSelectedOption(null);
+      setFilterOption(null);
+    }
+  }, [location.search, setFilterOption]);
 
   const handleClose = (event) => {
-    if (anchorEl && anchorEl.contains(event.target)) {
+    if (anchorRef.current && anchorRef.current.contains(event.target)) {
       return;
     }
     setOpen(false);
@@ -37,30 +50,28 @@ const FilterByMenu = ({ filterOption, setFilterOption }) => {
     if (selectedOption === option) {
       setSelectedOption(null);
       setFilterOption(null);
+      navigate(location.pathname);
     } else {
       setSelectedOption(option);
       setFilterOption(option);
+      const params = new URLSearchParams(location.search);
+      params.set("filterOption", option);
+      navigate(`${location.pathname}?${params}`);
     }
     setOpen(false);
   };
 
-  const handleIconClick = (event) => {
-    setAnchorEl(event.currentTarget);
+  const handleIconClick = () => {
     setOpen((prevOpen) => !prevOpen);
   };
 
   const isSelected = (option) => selectedOption === option;
 
-  useEffect(() => {
-    if (!open) {
-      setAnchorEl(null);
-    }
-  }, [open]);
-
   return (
     <Stack direction="row" spacing={2}>
       <div>
         <button
+          ref={anchorRef}
           id="composition-button"
           aria-controls={open ? "composition-menu" : undefined}
           aria-expanded={open ? "true" : undefined}
@@ -78,7 +89,7 @@ const FilterByMenu = ({ filterOption, setFilterOption }) => {
         </button>
         <Popper
           open={open}
-          anchorEl={anchorEl}
+          anchorEl={anchorRef.current}
           role={undefined}
           placement="bottom-start"
           transition
