@@ -14,7 +14,7 @@ import UserGridView from "./UserGridView";
 import useUserStore from "./useUserStore";
 import Pagination from "./Pagination";
 import SortByMenu from "./SortByMenu";
-import userSort from "../utils/userSort";
+import userSort from "../utils/userFunctions";
 
 const UserList = () => {
   const [isInputFocused, setIsInputFocused] = useState(false);
@@ -47,11 +47,14 @@ const UserList = () => {
   const paginatedUsers = users.slice(startIndex, endIndex);
 
   // filter paginated users based on search query
-  const filteredUsers = paginatedUsers.filter(
-    (user) =>
-      user.firstName.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      user.lastName.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      user.email.toLowerCase().includes(searchQuery.toLowerCase()),
+  const filteredUsers = useCallback(
+    paginatedUsers.filter(
+      (user) =>
+        user.firstName.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        user.lastName.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        user.email.toLowerCase().includes(searchQuery.toLowerCase()),
+    ),
+    [itemsPerPage, paginatedUsers, searchQuery],
   );
 
   // sort filtered users based on sort option here using useMemo

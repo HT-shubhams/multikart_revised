@@ -13,6 +13,13 @@ const SortByMenu = ({ sortOption, setSortOption }) => {
   const [open, setOpen] = useState(false);
   const anchorRef = useRef(null);
 
+  // for default sort option
+  useEffect(() => {
+    if (!sortOption) {
+      setSortOption("Created Date");
+    }
+  }, [sortOption, setSortOption]);
+
   const handleToggle = () => {
     setOpen((prevOpen) => !prevOpen);
   };
