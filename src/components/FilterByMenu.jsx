@@ -1,5 +1,4 @@
 import React, { useState, useEffect, useRef } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
 import ClickAwayListener from "@mui/material/ClickAwayListener";
 import Grow from "@mui/material/Grow";
 import Paper from "@mui/material/Paper";
@@ -13,22 +12,14 @@ const FilterByMenu = ({ filterOption, setFilterOption }) => {
   const [open, setOpen] = useState(false);
   const [selectedOption, setSelectedOption] = useState(null);
   const anchorRef = useRef(null);
-  const location = useLocation();
-  const navigate = useNavigate();
 
   useEffect(() => {
-    const params = new URLSearchParams(location.search);
-    const selected = params.get("filterOption");
-    // console.log(selected);
-
-    if (selected) {
-      setSelectedOption(selected);
-      setFilterOption(selected);
-    } else {
-      setSelectedOption(null);
-      setFilterOption(null);
+    const storedOption = localStorage.getItem("filterOption");
+    if (storedOption) {
+      setSelectedOption(storedOption);
+      setFilterOption(storedOption);
     }
-  }, [location.search, setFilterOption]);
+  }, [setFilterOption]);
 
   const handleClose = (event) => {
     if (anchorRef.current && anchorRef.current.contains(event.target)) {
@@ -50,22 +41,20 @@ const FilterByMenu = ({ filterOption, setFilterOption }) => {
     if (selectedOption === option) {
       setSelectedOption(null);
       setFilterOption(null);
-      navigate(location.pathname);
+      localStorage.removeItem("filterOption");
     } else {
       setSelectedOption(option);
       setFilterOption(option);
-      const params = new URLSearchParams(location.search);
-      params.set("filterOption", option);
-      navigate(`${location.pathname}?${params}`);
+      localStorage.setItem("filterOption", option);
     }
     setOpen(false);
   };
 
+  const isSelected = (option) => selectedOption === option;
+
   const handleIconClick = () => {
     setOpen((prevOpen) => !prevOpen);
   };
-
-  const isSelected = (option) => selectedOption === option;
 
   return (
     <Stack direction="row" spacing={2}>
@@ -85,7 +74,7 @@ const FilterByMenu = ({ filterOption, setFilterOption }) => {
             className="my-1 md:mr-1"
             style={{ cursor: "pointer" }}
           />
-          <span className="hidden md:inline">Filter By</span>
+          <span className="hidden lg:inline">Filter By</span>
         </button>
         <Popper
           open={open}
