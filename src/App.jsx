@@ -21,7 +21,7 @@ const App = () => {
         <div className="md:ml-64">
           <ToastContainer />
           <Routes>
-            <Route path="/" element={<UserList />} />
+            <Route path="/users" element={<UserList />} />
             <Route path="/add-user" element={<AddUser />} />
             <Route path="/edit-user/:userId" element={<EditUser />} />
             <Route path="/dashboard" element={<Dashboad />} />
