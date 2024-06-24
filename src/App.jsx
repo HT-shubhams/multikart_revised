@@ -8,6 +8,7 @@ import AddUser from "./components/AddUser";
 import "react-toastify/dist/ReactToastify.css";
 import { ToastContainer } from "react-toastify";
 import EditUser from "./components/EditUser";
+import Dashboad from "./components/Dashboad";
 
 const App = () => {
   return (
@@ -23,6 +24,7 @@ const App = () => {
             <Route path="/" element={<UserList />} />
             <Route path="/add-user" element={<AddUser />} />
             <Route path="/edit-user/:userId" element={<EditUser />} />
+            <Route path="/dashboard" element={<Dashboad />} />
           </Routes>
         </div>
       </div>
