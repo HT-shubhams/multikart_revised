@@ -146,7 +146,7 @@ const AddUser = () => {
               className="mt-1 w-full rounded-md border border-[#c4c4c4] p-2 md:mt-0 md:w-3/4"
               onChange={(e) => setRole(e.target.value)}
             >
-              <option value="" disabled selected>
+              <option value="" disabled>
                 Select Role
               </option>
               <option value="User">User</option>
@@ -164,7 +164,7 @@ const AddUser = () => {
               className="mt-1 w-full rounded-md border border-[#c4c4c4] p-2 md:mt-0 md:w-3/4"
               onChange={(e) => setStatus(e.target.value)}
             >
-              <option value="" disabled selected>
+              <option value="" disabled>
                 Select Status
               </option>
               <option value="Active">Active</option>
