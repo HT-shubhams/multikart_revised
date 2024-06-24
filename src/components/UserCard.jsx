@@ -19,7 +19,7 @@ export default function UserCard({ user }) {
     useUserStore.getState().deleteUser(user.id);
     setShowModal(false);
     toast.error("User has been deleted successfully!");
-    navigate("/");
+    navigate("/users");
   };
 
   return (

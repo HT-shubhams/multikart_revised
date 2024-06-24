@@ -22,7 +22,7 @@ const EditUser = () => {
 
   useEffect(() => {
     if (!user) {
-      navigate("/");
+      navigate("/users");
     }
   }, [user, navigate]);
 
@@ -50,7 +50,7 @@ const EditUser = () => {
     updateUser(user.id, updatedUser);
 
     toast.warn("User has been updated successfully!");
-    navigate("/");
+    navigate("/users");
   };
 
   return (
@@ -58,13 +58,13 @@ const EditUser = () => {
       <div className="mt-8 text-[#63666b] md:mr-12 md:mt-11 md:flex md:items-center md:justify-between">
         <div className="ml-4 text-2xl text-black md:ml-8">Users</div>
         <div className="ml-4 mt-3 flex items-center text-sm md:ml-8 md:mt-0 md:text-lg">
-          <div className="pr-2 md:pr-4" onClick={() => navigate("/")}>
+          <div className="pr-2 md:pr-4" onClick={() => navigate("/users")}>
             <HomeIcon />
           </div>
           /{" "}
           <span
             className="px-2 text-black md:px-4"
-            onClick={() => navigate("/")}
+            onClick={() => navigate("/users")}
           >
             Users
           </span>{" "}
