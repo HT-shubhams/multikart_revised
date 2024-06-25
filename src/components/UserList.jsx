@@ -1,22 +1,30 @@
-import React, { useState } from "react";
+import React, { useState, useCallback, useMemo } from "react";
 import { useNavigate } from "react-router-dom";
 import classNames from "classnames";
 import {
-  FilterByIcon,
   GridViewIcon,
+  LeftArrowIcon,
   ListViewIcon,
   SearchIcon,
-  SortByIcon,
+  RightArrowIcon,
 } from "../assets/icons";
 import UserListView from "./UserListView";
 import UserGridView from "./UserGridView";
 import useUserStore from "./useUserStore";
+import Pagination from "./Pagination";
+import SortByMenu from "./SortByMenu";
+import { userSort, filterByRole } from "../utils/userFunctions";
+import FilterByMenu from "./FilterByMenu";
 
 const UserList = () => {
   const [isInputFocused, setIsInputFocused] = useState(false);
   const [isSearchExpanded, setIsSearchExpanded] = useState(false);
   const [isGridView, setIsGridView] = useState(true);
   const [searchQuery, setSearchQuery] = useState("");
+  const [currentPage, setCurrentPage] = useState(1);
+  const [itemsPerPage, setItemsPerPage] = useState(10);
+  const [sortOption, setSortOption] = useState("Created Date");
+  const [filterOption, setFilterOption] = useState("");
 
   const users = useUserStore((state) => state.users);
 
@@ -26,38 +34,69 @@ const UserList = () => {
     navigate("/add-user");
   };
 
-  const filteredUsers = users.filter(
-    (user) =>
-      user.firstName.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      user.lastName.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      user.email.toLowerCase().includes(searchQuery.toLowerCase())
-  );
+  // memoize the sorting function using useCallback
+  const handleSortOptionChange = useCallback((option) => {
+    setSortOption(option);
+  }, []);
+
+  // memoize the filter function using useCallback
+  const handleFilterOptionChange = useCallback((option) => {
+    setFilterOption(option);
+  }, []);
+
+  // paginate the initial list of users
+  const totalRecords = users.length;
+  const totalPages = Math.ceil(totalRecords / itemsPerPage);
+
+  const startIndex = (currentPage - 1) * itemsPerPage;
+  const endIndex = startIndex + itemsPerPage;
+  const paginatedUsers = users.slice(startIndex, endIndex);
+
+  // filter paginated users based on search query
+  const filteredUsers = useMemo(() => {
+    return paginatedUsers.filter(
+      (user) =>
+        user.firstName.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        user.lastName.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        user.email.toLowerCase().includes(searchQuery.toLowerCase()),
+    );
+  }, [paginatedUsers, searchQuery]);
+
+  // sort filtered users based on sort option here using useMemo
+  const sortedUsers = useMemo(() => {
+    return userSort({ filteredUsers, sortOption });
+  }, [filteredUsers, sortOption]);
+
+  // filter sorted users based on filter option here using useMemo by their role
+  const filteredUsersByRole = useMemo(() => {
+    return filterByRole({ users: sortedUsers, filterOption });
+  }, [sortedUsers, filterOption]);
 
   return (
     <div className="bg-[#F9F9F9]">
-      <div className="flex justify-between mt-8">
-        <div className="text-2xl ml-4 md:ml-8">Users</div>
+      <div className="mt-8 flex justify-between">
+        <div className="ml-4 text-2xl md:ml-8">Users</div>
         <div className="flex">
           <button
-            className={classNames("p-2 md:p-[10px] rounded-l-md border-2", {
-              "bg-[#641CC0] text-white border-transparent": !isGridView,
-              "bg-white text-[#641CC0] border-gray-300": isGridView,
+            className={classNames("rounded-l-md border-2 p-2 md:p-[10px]", {
+              "border-transparent bg-[#641CC0] text-white": !isGridView,
+              "border-gray-300 bg-white text-[#641CC0]": isGridView,
             })}
             onClick={() => setIsGridView(false)}
           >
-            <ListViewIcon className="w-5 h-5" />
+            <ListViewIcon className="h-5 w-5" />
           </button>
           <button
-            className={classNames("p-2 md:p-[10px] rounded-r-md border-2", {
-              "bg-[#641CC0] text-white border-transparent": isGridView,
-              "bg-white text-[#641CC0] border-gray-300": !isGridView,
+            className={classNames("rounded-r-md border-2 p-2 md:p-[10px]", {
+              "border-transparent bg-[#641CC0] text-white": isGridView,
+              "border-gray-300 bg-white text-[#641CC0]": !isGridView,
             })}
             onClick={() => setIsGridView(true)}
           >
-            <GridViewIcon className="w-5 h-5" />
+            <GridViewIcon className="h-5 w-5" />
           </button>
           <button
-            className="bg-[#641CC0] text-white p-2 rounded-md w-20 h-10 md:w-40 md:h-12 ml-3 md:ml-5 mr-5 md:mr-9"
+            className="ml-3 mr-5 h-10 w-20 rounded-md bg-[#641CC0] p-2 text-white md:ml-5 md:mr-9 md:h-12 md:w-40"
             onClick={navigateAddUser}
           >
             <span className="md:hidden">+ Add</span>
@@ -65,43 +104,43 @@ const UserList = () => {
           </button>
         </div>
       </div>
-      <div className="flex flex-col mt-4 md:mt-8 rounded-lg shadow-md mx-2 md:mx-9">
-        <div className="flex justify-between w-full mt-2">
-          <div className="flex space-x-3">
-            <button className="flex p-2 border border-[#777a81] rounded-md items-center ml-5 md:ml-8">
-              <SortByIcon className="md:mr-2" />
-              <span className="hidden md:inline">Sort By</span>
-            </button>
-            <button className="flex p-2 border border-[#777a81] rounded-md">
-              <FilterByIcon className="md:mr-1 my-auto" />
-              <span className="hidden md:inline">Filter By</span>
-            </button>
+      <div className="mx-2 mt-4 flex flex-col rounded-lg shadow-md md:mx-9 md:mt-8">
+        <div className="mt-2 flex w-full justify-between">
+          <div className="flex space-x-3 pl-5 md:pl-8">
+            <SortByMenu
+              sortOption={sortOption}
+              setSortOption={handleSortOptionChange}
+            />
+            <FilterByMenu
+              filterOption={filterOption}
+              setFilterOption={handleFilterOptionChange}
+            />
           </div>
 
-          <div className="flex items-center mr-5 md:mr-7">
+          <div className="mr-5 flex items-center md:mr-7">
             <div
               className={classNames(
-                "flex items-center gap-1 bg-white py-2 pl-2 pr-[4.5px] md:p-2 rounded-lg border border-[#777a81] ml-4",
-                { "!border-[#2e4272]": isInputFocused }
+                "ml-4 flex items-center gap-1 rounded-lg border border-[#777a81] bg-white py-2 pl-2 pr-[4.5px] md:p-2",
+                { "!border-[#2e4272]": isInputFocused },
               )}
             >
               <button
                 type="button"
-                className="h-6 aspect-square"
+                className="aspect-square h-6"
                 onClick={() => setIsSearchExpanded(!isSearchExpanded)}
               >
-                <SearchIcon className="w-5 h-5" />
+                <SearchIcon className="h-5 w-5" />
               </button>
               <input
                 type="text"
                 placeholder="Search here"
                 className={classNames(
-                  "bg-transparent outline-none text-black",
+                  "bg-transparent text-black outline-none",
                   { "hidden md:block": !isSearchExpanded },
                   {
                     "w-20 md:w-48": !isSearchExpanded,
                     "w-full": isSearchExpanded,
-                  }
+                  },
                 )}
                 onBlur={() => {
                   setIsInputFocused(false);
@@ -116,11 +155,22 @@ const UserList = () => {
 
         <div className="flex">
           {isGridView ? (
-            <UserGridView users={filteredUsers} />
+            <UserGridView users={filteredUsersByRole} />
           ) : (
-            <UserListView users={filteredUsers} />
+            <UserListView users={filteredUsersByRole} />
           )}
         </div>
+
+        <Pagination
+          currentPage={currentPage}
+          totalRecords={totalRecords}
+          totalPages={totalPages}
+          onPageChange={setCurrentPage}
+          itemsPerPage={itemsPerPage}
+          onItemsPerPageChange={setItemsPerPage}
+          LeftArrowIcon={LeftArrowIcon}
+          RightArrowIcon={RightArrowIcon}
+        />
       </div>
     </div>
   );

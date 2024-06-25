@@ -19,13 +19,13 @@ export default function UserCard({ user }) {
     useUserStore.getState().deleteUser(user.id);
     setShowModal(false);
     toast.error("User has been deleted successfully!");
-    navigate("/");
+    navigate("/users");
   };
 
   return (
-    <div className="relative flex items-center border border-[#E0E0E2] p-4 rounded-md bg-[#FAFAFA] w-full max-w-[370px]">
+    <div className="relative flex w-full max-w-[370px] items-center rounded-md border border-[#E0E0E2] bg-[#FAFAFA] p-4">
       {showModal && (
-        <div className="fixed inset-0 flex items-center justify-center z-20">
+        <div className="fixed inset-0 z-20 flex items-center justify-center">
           <DeleteModal
             onConfirm={handleDeleteUser}
             onCancel={() => setShowModal(false)}
@@ -36,15 +36,15 @@ export default function UserCard({ user }) {
         <img
           src={user.photo}
           alt={`${user.firstName} ${user.lastName}`}
-          className="rounded-full w-[75px] h-[75px] min-w-[75px] min-h-[75px]"
+          className="h-[75px] min-h-[75px] w-[75px] min-w-[75px] rounded-full"
         />
       </div>
       <div className="flex flex-col justify-center text-[#63666B]">
-        <p className="font-poppins text-[18px] font-medium leading-[27px] text-left">
+        <p className="font-poppins text-left text-[18px] font-medium leading-[27px]">
           {`${user.firstName} ${user.lastName}`}
         </p>
         <p
-          className="font-poppins text-[14px] font-normal leading-[21px] text-left text-ellipsis whitespace-nowrap overflow-hidden max-w-[200px]"
+          className="font-poppins max-w-[200px] overflow-hidden text-ellipsis whitespace-nowrap text-left text-[14px] font-normal leading-[21px]"
           title={user.email}
         >
           {user.email}
@@ -53,21 +53,21 @@ export default function UserCard({ user }) {
           {user.status === "Active" ? (
             <div className="flex items-center">
               <ActiveDotIcon />
-              <span className="font-poppins text-[14px] font-normal leading-[21px] text-left ml-1">
+              <span className="font-poppins ml-1 text-left text-[14px] font-normal leading-[21px]">
                 Active
               </span>
             </div>
           ) : (
             <div className="flex items-center">
               <InactiveDotIcon />
-              <span className="font-poppins text-[14px] font-normal leading-[21px] text-left ml-1">
+              <span className="font-poppins ml-1 text-left text-[14px] font-normal leading-[21px]">
                 Inactive
               </span>
             </div>
           )}
         </div>
       </div>
-      <div className="ml-auto mb-auto relative">
+      <div className="relative mb-auto ml-auto">
         <button
           onClick={() => setDropdownOpen(!dropdownOpen)}
           className="focus:outline-none"
@@ -75,13 +75,13 @@ export default function UserCard({ user }) {
           <OptionsIcon />
         </button>
         {dropdownOpen && (
-          <div className="absolute right-0 mt-2 w-40 py-2 bg-white border border-gray-200 rounded-md shadow-lg z-10">
+          <div className="absolute right-0 z-10 mt-2 w-40 rounded-md border border-gray-200 bg-white py-2 shadow-lg">
             <button
               onClick={() => {
                 navigateToEditUser();
                 setDropdownOpen(false);
               }}
-              className="block px-4 py-2 text-gray-700 text-left hover:bg-gray-100 w-full"
+              className="block w-full px-4 py-2 text-left text-gray-700 hover:bg-gray-100"
             >
               Edit
             </button>
@@ -90,7 +90,7 @@ export default function UserCard({ user }) {
                 setShowModal(true);
                 setDropdownOpen(false);
               }}
-              className="block px-4 py-2 text-gray-700 text-left hover:bg-gray-100 w-full"
+              className="block w-full px-4 py-2 text-left text-gray-700 hover:bg-gray-100"
             >
               Delete
             </button>

@@ -23,7 +23,7 @@ const UserListView = ({ users }) => {
     setSelectedUsers((prevSelected) =>
       prevSelected.includes(id)
         ? prevSelected.filter((userId) => userId !== id)
-        : [...prevSelected, id]
+        : [...prevSelected, id],
     );
   };
 
@@ -47,98 +47,98 @@ const UserListView = ({ users }) => {
   const handleDeleteUser = () => {
     useUserStore.getState().deleteUser(userToDelete);
     setShowModal(false);
-    navigate("/");
+    navigate("/users");
     toast.error("User has been deleted successfully!");
     console.log("User deleted!");
   };
 
   return (
-    <div className="w-full overflow-x-auto mt-7 md:mt-10">
+    <div className="mt-7 w-full overflow-x-auto md:mt-10">
       {showModal && (
         <DeleteModal
           onConfirm={handleDeleteUser}
           onCancel={() => setShowModal(false)}
         />
       )}
-      <table className="min-w-full divide-y divide-gray-200 font-poppins text-[#63666B]">
+      <table className="font-poppins min-w-full divide-y divide-gray-200 text-[#63666B]">
         <thead className="bg-gray-50">
           <tr>
             <th className="w-12 px-4 py-2 text-left">
               <input
                 type="checkbox"
-                className="w-4 h-4"
+                className="h-4 w-4"
                 onChange={handleSelectAll}
                 checked={selectedUsers.length === users.length}
               />
             </th>
-            <th className="text-[14px] md:text-[16px] px-4 py-2 text-left">
+            <th className="px-4 py-2 text-left text-[14px] md:text-[16px]">
               ID
             </th>
-            <th className="text-[14px] md:text-[16px] px-4 py-2 text-left">
+            <th className="px-4 py-2 text-left text-[14px] md:text-[16px]">
               Title
             </th>
-            <th className="text-[14px] md:text-[16px] px-4 py-2 text-left">
+            <th className="px-4 py-2 text-left text-[14px] md:text-[16px]">
               Email
             </th>
-            <th className="md:table-cell text-[14px] md:text-[16px] px-4 py-2 text-left">
+            <th className="px-4 py-2 text-left text-[14px] md:table-cell md:text-[16px]">
               Last Login
             </th>
-            <th className="md:table-cell text-[14px] md:text-[16px] px-4 py-2 text-left">
+            <th className="px-4 py-2 text-left text-[14px] md:table-cell md:text-[16px]">
               Phone
             </th>
-            <th className="md:table-cell text-[14px] md:text-[16px] px-4 py-2 text-left">
+            <th className="px-4 py-2 text-left text-[14px] md:table-cell md:text-[16px]">
               Role
             </th>
-            <th className="md:table-cell text-[14px] md:text-[16px] px-4 py-2 text-left">
+            <th className="px-4 py-2 text-left text-[14px] md:table-cell md:text-[16px]">
               Status
             </th>
-            <th className="md:table-cell text-[14px] md:text-[16px] px-4 py-2 text-left">
+            <th className="px-4 py-2 text-left text-[14px] md:table-cell md:text-[16px]">
               Action
             </th>
           </tr>
         </thead>
-        <tbody className="bg-white divide-y divide-gray-200">
+        <tbody className="divide-y divide-gray-200 bg-white">
           {users.map((user) => (
             <tr key={user.id}>
-              <td className="text-[14px] md:text-[16px] px-4 py-2">
+              <td className="px-4 py-2 text-[14px] md:text-[16px]">
                 <input
                   type="checkbox"
-                  className="w-4 h-4"
+                  className="h-4 w-4"
                   checked={selectedUsers.includes(user.id)}
                   onChange={() => handleSelectUser(user.id)}
                 />
               </td>
-              <td className="text-[14px] md:text-[16px] px-4 py-2">
+              <td className="px-4 py-2 text-[14px] md:text-[16px]">
                 {user.id}
               </td>
-              <td className="text-[14px] md:text-[16px] px-4 py-2">
+              <td className="px-4 py-2 text-[14px] md:text-[16px]">
                 <div className="flex items-center">
                   <img
-                    className="w-8 h-8 rounded-full mr-2"
+                    className="mr-2 h-8 w-8 rounded-full"
                     src={user.photo}
                     alt={`${user.firstName} ${user.lastName}`}
                   />
                   <span className="whitespace-nowrap">{`${user.firstName} ${user.lastName}`}</span>
                 </div>
               </td>
-              <td className="text-[14px] md:text-[16px] px-4 py-2 max-w-xs truncate">
+              <td className="max-w-xs truncate px-4 py-2 text-[14px] md:text-[16px]">
                 {user.email}
               </td>
-              <td className="md:table-cell text-[14px] md:text-[16px] px-4 py-2">
+              <td className="px-4 py-2 text-[14px] md:table-cell md:text-[16px]">
                 {getLastLoginDisplay(user.lastLogin)}
               </td>
-              <td className="md:table-cell text-[14px] md:text-[16px] px-4 py-2">
+              <td className="px-4 py-2 text-[14px] md:table-cell md:text-[16px]">
                 {user.phone}
               </td>
-              <td className="md:table-cell text-[14px] md:text-[16px] px-4 py-2">
+              <td className="px-4 py-2 text-[14px] md:table-cell md:text-[16px]">
                 {user.role}
               </td>
-              <td className="md:table-cell text-[14px] md:text-[16px] px-4 py-2">
+              <td className="px-4 py-2 text-[14px] md:table-cell md:text-[16px]">
                 {user.status}
               </td>
-              <td className="md:table-cell text-[14px] md:text-[16px] px-4 py-2">
+              <td className="px-4 py-2 text-[14px] md:table-cell md:text-[16px]">
                 <select
-                  className="bg-white border border-[#777a81] rounded-md w-24 h-8"
+                  className="h-8 w-24 rounded-md border border-[#777a81] bg-white"
                   onChange={(e) => handleOptionChange(user.id, e.target.value)}
                 >
                   <option>Action</option>
