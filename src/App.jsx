@@ -1,33 +1,15 @@
-import React from "react";
-import "./tailwind.css";
-import Sidebar from "./components/Sidebar";
-import Header from "./components/Header";
-import UserList from "./components/UserList";
-import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
-import AddUser from "./components/AddUser";
-import "react-toastify/dist/ReactToastify.css";
-import { ToastContainer } from "react-toastify";
-import EditUser from "./components/EditUser";
-import Dashboad from "./components/Dashboad";
+import React, { useState } from "react";
+import { BrowserRouter as Router } from "react-router-dom";
+import AuthenticatedApp from "./components/AuthenticatedApp";
+import UnauthenticatedApp from "./components/UnauthenticatedApp";
 
 const App = () => {
+  // replace this with actual authentication logic
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+
   return (
     <Router>
-      <div className="font-poppins">
-        <Sidebar />
-        <div className="hidden md:ml-64 md:block">
-          <Header />
-        </div>
-        <div className="md:ml-64">
-          <ToastContainer />
-          <Routes>
-            <Route path="/users" element={<UserList />} />
-            <Route path="/add-user" element={<AddUser />} />
-            <Route path="/edit-user/:userId" element={<EditUser />} />
-            <Route path="/dashboard" element={<Dashboad />} />
-          </Routes>
-        </div>
-      </div>
+      {isAuthenticated ? <AuthenticatedApp /> : <UnauthenticatedApp />}
     </Router>
   );
 };
