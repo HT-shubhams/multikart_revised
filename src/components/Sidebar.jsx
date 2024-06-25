@@ -1,11 +1,14 @@
-import React from "react";
+import React, { useState } from "react";
 import img from "../assets/images/multikart_logo.png";
-import { DashboardIcon, LinesIcon, UsersIcon } from "../assets/icons";
+import { LinesIcon, DashboardIcon, UsersIcon } from "../assets/icons";
 import { useLocation, Link } from "react-router-dom";
 import classnames from "classnames";
+import MobileMenu from "./MobileMenu";
 
 const Sidebar = () => {
   const location = useLocation();
+  const [openMobileMenu, setOpenMobileMenu] = useState(false);
+  const [anchorEl, setAnchorEl] = useState(null);
 
   const isActive = (path) => {
     return location.pathname === path;
@@ -22,12 +25,17 @@ const Sidebar = () => {
   const activeColor = "#641cc0";
   const defaultColor = "#63666B";
 
+  const handleMobileMenuToggle = (event) => {
+    setOpenMobileMenu(!openMobileMenu);
+    setAnchorEl(event.currentTarget);
+  };
+
   return (
     <div className="md:fixed md:h-full md:w-64 md:shadow-md">
       <div className="flex items-center shadow-md md:h-full md:flex-col">
         <img className="m-3 h-[28px] w-[157px]" src={img} alt="" />
         <div className="ml-auto md:hidden">
-          <LinesIcon color={defaultColor} />
+          <LinesIcon color={defaultColor} onClick={handleMobileMenuToggle} />
         </div>
         <div className="hidden w-full text-gray-600 md:mt-10 md:block md:self-start">
           <div className="ml-9 uppercase">Main Menu</div>
@@ -85,6 +93,11 @@ const Sidebar = () => {
           </div>
         </div>
       </div>
+      <MobileMenu
+        open={openMobileMenu}
+        onClose={() => setOpenMobileMenu(false)}
+        anchorEl={anchorEl}
+      />
     </div>
   );
 };

@@ -36,7 +36,7 @@ const AddUser = () => {
       email,
       phone,
       role,
-      status: "Inactive",
+      status,
       lastLogin: new Date().toISOString(),
       createdDate: new Date().toISOString(),
     };

@@ -5,6 +5,7 @@ import {
   InactiveUsersIcon,
   TotalUsersIcon,
 } from "../assets/icons";
+import TotalActiveUsersChart from "./TotalActiveUsersChart";
 
 const Dashboard = () => {
   const users = useUserStore((state) => state.users);
@@ -48,6 +49,10 @@ const Dashboard = () => {
             <InactiveUsersIcon />
           </div>
         </div>
+      </div>
+
+      <div className="ml-9 mt-14 hidden h-[400px] w-[551px] md:block">
+        <TotalActiveUsersChart />
       </div>
     </div>
   );

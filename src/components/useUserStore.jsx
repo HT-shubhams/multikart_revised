@@ -1,6 +1,6 @@
 import { create } from "zustand";
 
-const useUserStore = create((set) => ({
+const useUserStore = create((set, get) => ({
   users: [
     {
       id: 1,
@@ -152,6 +152,22 @@ const useUserStore = create((set) => ({
         user.id === userId ? { ...user, status } : user,
       ),
     })),
+
+  getActiveUsersByMonth: () => {
+    const users = get().users;
+    const activeUsersByMonth = {};
+
+    users.forEach((user) => {
+      if (user.status === "Active") {
+        const month = new Date(user.createdDate).getMonth();
+        if (!activeUsersByMonth[month]) {
+          activeUsersByMonth[month] = 0;
+        }
+        activeUsersByMonth[month]++;
+      }
+    });
+    return activeUsersByMonth;
+  },
 }));
 
 export default useUserStore;
