@@ -30,27 +30,27 @@ export const UserSignup = () => {
                   <input
                     type="text"
                     placeholder="First Name"
-                    className="mb-3 h-11 w-full rounded-md border p-3 md:mb-4"
+                    className="mb-3 h-11 w-full rounded-md border border-[#c4c4c4] p-3 md:mb-4"
                   />
                   <input
                     type="text"
                     placeholder="Last Name"
-                    className="mb-3 h-11 w-full rounded-md border p-3 md:mb-4"
+                    className="mb-3 h-11 w-full rounded-md border border-[#c4c4c4] p-3 md:mb-4"
                   />
                   <input
                     type="text"
                     placeholder="Email ID"
-                    className="mb-3 h-11 w-full rounded-md border p-3 md:mb-4"
+                    className="mb-3 h-11 w-full rounded-md border border-[#c4c4c4] p-3 md:mb-4"
                   />
                   <input
                     type="text"
                     placeholder="Create Password"
-                    className="mb-3 h-11 w-full rounded-md border p-3 md:mb-4"
+                    className="mb-3 h-11 w-full rounded-md border border-[#c4c4c4] p-3 md:mb-4"
                   />
                   <input
                     type="text"
                     placeholder="Confirm Password"
-                    className="mb-3 h-11 w-full rounded-md border p-3 md:mb-5"
+                    className="mb-3 h-11 w-full rounded-md border border-[#c4c4c4] p-3 md:mb-5"
                   />
                   <button
                     type="button"
