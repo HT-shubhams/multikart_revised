@@ -5,7 +5,7 @@ import { SignupImage } from "../assets/images/SignupImage";
 
 export const UserSignup = () => {
   return (
-    <div>
+    <div className="flex min-h-screen flex-col">
       <div>
         <MainpageHeader />
       </div>
@@ -16,13 +16,13 @@ export const UserSignup = () => {
             <SignupImage />
           </div>
 
-          <div className="mx-3 mt-5 rounded-lg border p-4 md:ml-10 md:w-96 md:border-0">
+          <div className="mx-3 mt-5 rounded-lg border px-4 pt-4 md:ml-10 md:w-96 md:border-0">
             <div className="text-lg font-medium md:text-2xl">
               Sign up as a new user
             </div>
             <div>
               <div className="text-sm font-normal text-[#7e7e7e] md:text-base">
-                or already registered ?{" "}
+                or already registered?{" "}
                 <Link to="/" className="text-[#641cc0]">
                   Login now
                 </Link>
@@ -63,6 +63,10 @@ export const UserSignup = () => {
             </div>
           </div>
         </div>
+      </div>
+
+      <div className="mt-auto py-4 text-center text-xs font-light text-[#4f5665] md:bg-[#f5f6f8]">
+        Copyright © 2021 Multikart. All rights reserved.
       </div>
     </div>
   );
