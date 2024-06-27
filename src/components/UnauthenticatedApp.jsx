@@ -1,17 +1,18 @@
 import React from "react";
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, Navigate } from "react-router-dom";
 import { UserSignup } from "./UserSignup";
 import { UserSignin } from "./UserSignin";
-import { ToastContainer } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
 
-const UnauthenticatedApp = () => {
+const UnauthenticatedApp = ({ setIsAuthenticated }) => {
   return (
     <div>
-      <ToastContainer />
       <Routes>
         <Route path="/sign-up" element={<UserSignup />} />
-        <Route path="/sign-in" element={<UserSignin />} />
+        <Route
+          path="/sign-in"
+          element={<UserSignin setIsAuthenticated={setIsAuthenticated} />}
+        />
+        <Route path="/" element={<Navigate to="/sign-in" />} />
       </Routes>
     </div>
   );

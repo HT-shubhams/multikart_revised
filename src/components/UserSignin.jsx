@@ -6,7 +6,7 @@ import { supabase } from "../utils/supabaseClient";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
-export const UserSignin = () => {
+export const UserSignin = ({ setIsAuthenticated }) => {
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -25,9 +25,11 @@ export const UserSignin = () => {
       toast.error(error.message);
     } else {
       toast.success("Sign-in successful! Redirecting to Users...");
-      setTimeout(() => {
-        navigate("/users");
-      }, 2000);
+      setIsAuthenticated(true);
+      navigate("/users");
+      // setTimeout(() => {
+      //   navigate("/users");
+      // }, 2000);
     }
   };
 
@@ -46,20 +48,22 @@ export const UserSignin = () => {
           <div className="mx-3 mt-5 rounded-lg border px-4 pt-4 shadow-md md:w-96">
             <div className="text-lg font-medium md:text-2xl">Login</div>
             <form className="mt-7 md:mt-10" onSubmit={handleSignIn}>
-              <label htmlFor="" className="text-sm">
+              <label htmlFor="email" className="text-sm">
                 Email ID / Username
               </label>
               <input
+                id="email"
                 type="text"
                 className="mb-2 mt-2 w-full rounded-md border border-[#c4c4c4] p-2"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 required
               />
-              <label htmlFor="" className="text-sm">
+              <label htmlFor="password" className="text-sm">
                 Password
               </label>
               <input
+                id="password"
                 type="password"
                 className="mb-3 mt-2 w-full rounded-md border border-[#c4c4c4] p-2"
                 value={password}
