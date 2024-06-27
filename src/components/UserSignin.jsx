@@ -70,7 +70,7 @@ export const UserSignin = ({ setIsAuthenticated }) => {
                 onChange={(e) => setPassword(e.target.value)}
                 required
               />
-              <Link to="/" className="text-sm text-[#641cc0]">
+              <Link to="/forgot-password" className="text-sm text-[#641cc0]">
                 Forgot Password?
               </Link>
               <button
