@@ -8,11 +8,13 @@ import "react-toastify/dist/ReactToastify.css";
 
 export const UserSignup = () => {
   const navigate = useNavigate();
-  const [firstName, setFirstName] = useState("");
+  const [firstName, setFirstName] = useState();
   const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
+
+  // refer: https://supabase.com/docs/reference/javascript/auth-signup#:~:text=unless%20absolutely%20necessary.-,Create%20a%20new%20user,-Creates%20a%20new
 
   const handleSignUp = async (e) => {
     e.preventDefault();

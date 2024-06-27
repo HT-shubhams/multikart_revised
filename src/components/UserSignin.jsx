@@ -1,9 +1,36 @@
-import React from "react";
+import React, { useState } from "react";
 import { MainpageHeader } from "./MainpageHeader";
 import { SigninImage } from "../assets/images/SigninImage";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { supabase } from "../utils/supabaseClient";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 export const UserSignin = () => {
+  const navigate = useNavigate();
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+
+  // refer: https://supabase.com/docs/reference/javascript/auth-signinwithpassword#:~:text=Response-,Sign%20in%20a%20user,-Log%20in%20an
+
+  const handleSignIn = async (e) => {
+    e.preventDefault();
+
+    const { error } = await supabase.auth.signInWithPassword({
+      email: email,
+      password: password,
+    });
+
+    if (error) {
+      toast.error(error.message);
+    } else {
+      toast.success("Sign-in successful! Redirecting to Users...");
+      setTimeout(() => {
+        navigate("/users");
+      }, 2000);
+    }
+  };
+
   return (
     <div className="flex min-h-screen flex-col">
       <div>
@@ -18,13 +45,16 @@ export const UserSignin = () => {
 
           <div className="mx-3 mt-5 rounded-lg border px-4 pt-4 shadow-md md:w-96">
             <div className="text-lg font-medium md:text-2xl">Login</div>
-            <form className="mt-7 md:mt-10">
+            <form className="mt-7 md:mt-10" onSubmit={handleSignIn}>
               <label htmlFor="" className="text-sm">
                 Email ID / Username
               </label>
               <input
                 type="text"
                 className="mb-2 mt-2 w-full rounded-md border border-[#c4c4c4] p-2"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                required
               />
               <label htmlFor="" className="text-sm">
                 Password
@@ -32,12 +62,15 @@ export const UserSignin = () => {
               <input
                 type="password"
                 className="mb-3 mt-2 w-full rounded-md border border-[#c4c4c4] p-2"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                required
               />
               <Link to="/" className="text-sm text-[#641cc0]">
                 Forgot Password?
               </Link>
               <button
-                type="button"
+                type="submit"
                 className="mb-5 mt-5 h-12 w-full rounded-md bg-[#641cc0] text-lg font-medium text-white md:mt-8 md:h-14"
               >
                 Login
