@@ -3,6 +3,7 @@ import { Routes, Route, Navigate } from "react-router-dom";
 import { UserSignup } from "./UserSignup";
 import { UserSignin } from "./UserSignin";
 import { ForgotPassword } from "./ForgotPassword";
+import { ResetPassword } from "./ResetPassword";
 
 const UnauthenticatedApp = ({ setIsAuthenticated }) => {
   return (
@@ -15,6 +16,7 @@ const UnauthenticatedApp = ({ setIsAuthenticated }) => {
         />
         <Route path="/" element={<Navigate to="/sign-in" />} />
         <Route path="/forgot-password" element={<ForgotPassword />} />
+        <Route path="reset-password" element={<ResetPassword />} />
       </Routes>
     </div>
   );
