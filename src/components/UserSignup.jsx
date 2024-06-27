@@ -1,9 +1,49 @@
-import React from "react";
-import { Form, Link } from "react-router-dom";
+import React, { useState } from "react";
+import { useNavigate, Link } from "react-router-dom";
 import { MainpageHeader } from "./MainpageHeader";
 import { SignupImage } from "../assets/images/SignupImage";
+import { supabase } from "../utils/supabaseClient";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 export const UserSignup = () => {
+  const navigate = useNavigate();
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+
+  const handleSignUp = async (e) => {
+    e.preventDefault();
+
+    if (password !== confirmPassword) {
+      toast.error("Passwords do not match!");
+      return;
+    }
+
+    const { data, error } = await supabase.auth.signUp({
+      email,
+      password,
+      options: {
+        data: { first_name: firstName, last_name: lastName },
+      },
+    });
+
+    if (error) {
+      if (error.message.includes("Email rate limit exceeded")) {
+        toast.error("Too many sign-up attempts. Please try again later.");
+      } else {
+        toast.error(error.message);
+      }
+    } else {
+      toast.success("Sign-up successful! Redirecting to login...");
+      setTimeout(() => {
+        navigate("/sign-in");
+      }, 2000);
+    }
+  };
+
   return (
     <div className="flex min-h-screen flex-col">
       <div>
@@ -26,40 +66,55 @@ export const UserSignup = () => {
                 <Link to="/" className="text-[#641cc0]">
                   Login now
                 </Link>
-                <form className="mt-9 md:mt-12">
-                  <input
-                    type="text"
-                    placeholder="First Name"
-                    className="mb-3 h-11 w-full rounded-md border border-[#c4c4c4] p-3 md:mb-4"
-                  />
-                  <input
-                    type="text"
-                    placeholder="Last Name"
-                    className="mb-3 h-11 w-full rounded-md border border-[#c4c4c4] p-3 md:mb-4"
-                  />
-                  <input
-                    type="text"
-                    placeholder="Email ID"
-                    className="mb-3 h-11 w-full rounded-md border border-[#c4c4c4] p-3 md:mb-4"
-                  />
-                  <input
-                    type="text"
-                    placeholder="Create Password"
-                    className="mb-3 h-11 w-full rounded-md border border-[#c4c4c4] p-3 md:mb-4"
-                  />
-                  <input
-                    type="text"
-                    placeholder="Confirm Password"
-                    className="mb-3 h-11 w-full rounded-md border border-[#c4c4c4] p-3 md:mb-5"
-                  />
-                  <button
-                    type="button"
-                    className="mb-5 h-12 w-full rounded-md bg-[#641cc0] text-lg font-medium text-white md:h-14"
-                  >
-                    Register Now
-                  </button>
-                </form>
               </div>
+              <form className="mt-9 md:mt-12" onSubmit={handleSignUp}>
+                <input
+                  type="text"
+                  placeholder="First Name"
+                  className="mb-3 h-11 w-full rounded-md border border-[#c4c4c4] p-3 md:mb-4"
+                  value={firstName}
+                  onChange={(e) => setFirstName(e.target.value)}
+                  required
+                />
+                <input
+                  type="text"
+                  placeholder="Last Name"
+                  className="mb-3 h-11 w-full rounded-md border border-[#c4c4c4] p-3 md:mb-4"
+                  value={lastName}
+                  onChange={(e) => setLastName(e.target.value)}
+                  required
+                />
+                <input
+                  type="email"
+                  placeholder="Email ID"
+                  className="mb-3 h-11 w-full rounded-md border border-[#c4c4c4] p-3 md:mb-4"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  required
+                />
+                <input
+                  type="password"
+                  placeholder="Create Password"
+                  className="mb-3 h-11 w-full rounded-md border border-[#c4c4c4] p-3 md:mb-4"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  required
+                />
+                <input
+                  type="password"
+                  placeholder="Confirm Password"
+                  className="mb-3 h-11 w-full rounded-md border border-[#c4c4c4] p-3 md:mb-5"
+                  value={confirmPassword}
+                  onChange={(e) => setConfirmPassword(e.target.value)}
+                  required
+                />
+                <button
+                  type="submit"
+                  className="mb-5 h-12 w-full rounded-md bg-[#641cc0] text-lg font-medium text-white md:h-14"
+                >
+                  Register Now
+                </button>
+              </form>
             </div>
           </div>
         </div>
