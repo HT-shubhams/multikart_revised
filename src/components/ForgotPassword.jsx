@@ -6,27 +6,22 @@ import axios from "axios";
 
 export const ForgotPassword = () => {
   const [email, setEmail] = useState("");
-  const [newPassword, setNewPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
 
-  const handleResetPassword = async (e) => {
+  const handleForgotPassword = async (e) => {
     e.preventDefault();
-
-    if (newPassword !== confirmPassword) {
-      toast.error("Passwords do not match!");
-      return;
-    }
 
     try {
       const response = await axios.post(
-        "http://localhost:5000/reset-password",
+        "http://localhost:5000/forgot-password",
         {
           email,
-          newPassword,
         },
       );
 
-      toast.success(response.data.message);
+      const { token } = response.data;
+
+      // redirect to reset password page with token
+      window.location = `/reset-password/${token}`;
     } catch (error) {
       toast.error(error.response?.data?.message || "An error occurred");
     }
@@ -41,9 +36,9 @@ export const ForgotPassword = () => {
       <div className="items-center md:flex md:flex-grow md:justify-center">
         <form
           className="mx-3 mt-4 rounded-md border p-4 shadow-lg md:w-[450px] md:border-0 md:text-center md:shadow-none"
-          onSubmit={handleResetPassword}
+          onSubmit={handleForgotPassword}
         >
-          <div className="text-lg font-medium md:text-4xl">Reset Password</div>
+          <div className="text-lg font-medium md:text-4xl">Forgot Password</div>
           <div className="mt-6 md:mt-10">
             <div>
               <input
@@ -52,22 +47,6 @@ export const ForgotPassword = () => {
                 className="mb-3 h-11 w-full rounded-md border border-[#c4c4c4] p-3 md:mb-4"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                required
-              />
-              <input
-                type="password"
-                placeholder="Enter New Password"
-                className="mb-3 h-11 w-full rounded-md border border-[#c4c4c4] p-3 md:mb-4"
-                value={newPassword}
-                onChange={(e) => setNewPassword(e.target.value)}
-                required
-              />
-              <input
-                type="password"
-                placeholder="Confirm New Password"
-                className="mb-3 h-11 w-full rounded-md border border-[#c4c4c4] p-3 md:mb-5"
-                value={confirmPassword}
-                onChange={(e) => setConfirmPassword(e.target.value)}
                 required
               />
               <div className="flex justify-center">

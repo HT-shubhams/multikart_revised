@@ -1,13 +1,14 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { MainpageHeader } from "./MainpageHeader";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import { toast } from "react-toastify";
 import axios from "axios";
-import { MainpageHeader } from "./MainpageHeader";
 
 export const ResetPassword = () => {
-  const [email, setEmail] = useState("");
+  const { token } = useParams();
   const [newPassword, setNewPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
+  const navgiate = useNavigate();
 
   const handleResetPassword = async (e) => {
     e.preventDefault();
@@ -19,14 +20,12 @@ export const ResetPassword = () => {
 
     try {
       const response = await axios.post(
-        "http://localhost:5000/reset-password",
+        `http://localhost:5000/reset-password/${token}`,
         {
-          email,
-          newPassword,
+          password: newPassword,
         },
       );
-
-      toast.success(response.data.message);
+      navgiate("/success-password");
     } catch (error) {
       toast.error(error.response?.data?.message || "An error occurred");
     }
@@ -46,14 +45,6 @@ export const ResetPassword = () => {
           <div className="text-lg font-medium md:text-4xl">Reset Password</div>
           <div className="mt-6 md:mt-10">
             <div>
-              <input
-                type="email"
-                placeholder="Enter your Email ID"
-                className="mb-3 h-11 w-full rounded-md border border-[#c4c4c4] p-3 md:mb-4"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                required
-              />
               <input
                 type="password"
                 placeholder="Enter New Password"
@@ -89,6 +80,10 @@ export const ResetPassword = () => {
             </div>
           </div>
         </form>
+      </div>
+
+      <div className="mt-auto py-4 text-center text-xs font-light text-[#4f5665] md:bg-[#f5f6f8]">
+        Copyright © 2021 Multikart. All rights reserved.
       </div>
     </div>
   );

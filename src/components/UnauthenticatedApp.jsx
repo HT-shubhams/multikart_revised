@@ -17,7 +17,7 @@ const UnauthenticatedApp = ({ setIsAuthenticated }) => {
         />
         <Route path="/" element={<Navigate to="/sign-in" />} />
         <Route path="/forgot-password" element={<ForgotPassword />} />
-        <Route path="/reset-password/:token" component={ResetPassword} />
+        <Route path="/reset-password/:token" Component={ResetPassword} />
         <Route path="/success-password" element={<SuccessPassword />} />
       </Routes>
     </div>
