@@ -7,12 +7,12 @@ import AddUser from "./AddUser";
 import EditUser from "./EditUser";
 import Dashboard from "./Dashboad";
 
-const AuthenticatedApp = () => {
+const AuthenticatedApp = ({ setIsAuthenticated }) => {
   return (
     <div className="font-poppins">
-      <Sidebar />
+      <Sidebar setIsAuthenticated={setIsAuthenticated} />
       <div className="hidden md:ml-64 md:block">
-        <Header />
+        <Header setIsAuthenticated={setIsAuthenticated} />
       </div>
       <div className="md:ml-64">
         <Routes>

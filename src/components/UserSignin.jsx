@@ -24,7 +24,7 @@ export const UserSignin = ({ setIsAuthenticated }) => {
     if (error) {
       toast.error(error.message);
     } else {
-      toast.success("Sign-in successful! Redirecting to Users...");
+      toast.success("Sign-in successful!");
       setIsAuthenticated(true);
       navigate("/users");
       // setTimeout(() => {

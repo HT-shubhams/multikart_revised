@@ -12,7 +12,7 @@ const App = () => {
     <Router>
       <ToastContainer />
       {isAuthenticated ? (
-        <AuthenticatedApp />
+        <AuthenticatedApp setIsAuthenticated={setIsAuthenticated} />
       ) : (
         <UnauthenticatedApp setIsAuthenticated={setIsAuthenticated} />
       )}
