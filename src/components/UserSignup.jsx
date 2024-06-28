@@ -39,7 +39,7 @@ export const UserSignup = () => {
         toast.error(error.message);
       }
     } else {
-      toast.success("Sign-up successful! Redirecting to login...");
+      toast.success("Sign-up successful! Please verify your mail to login.");
       setTimeout(() => {
         navigate("/sign-in");
       }, 2000);
