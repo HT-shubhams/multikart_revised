@@ -27,9 +27,6 @@ export const UserSignin = ({ setIsAuthenticated }) => {
       toast.success("Sign-in successful!");
       setIsAuthenticated(true);
       navigate("/users");
-      // setTimeout(() => {
-      //   navigate("/users");
-      // }, 2000);
     }
   };
 
