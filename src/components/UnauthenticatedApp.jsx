@@ -4,6 +4,7 @@ import { UserSignup } from "./UserSignup";
 import { UserSignin } from "./UserSignin";
 import { ForgotPassword } from "./ForgotPassword";
 import { ResetPassword } from "./ResetPassword";
+import { SuccessPassword } from "./SuccessPassword";
 
 const UnauthenticatedApp = ({ setIsAuthenticated }) => {
   return (
@@ -16,7 +17,8 @@ const UnauthenticatedApp = ({ setIsAuthenticated }) => {
         />
         <Route path="/" element={<Navigate to="/sign-in" />} />
         <Route path="/forgot-password" element={<ForgotPassword />} />
-        <Route path="reset-password" element={<ResetPassword />} />
+        <Route path="/reset-password" element={<ResetPassword />} />
+        <Route path="/success-password" element={<SuccessPassword />} />
       </Routes>
     </div>
   );

@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { MainpageHeader } from "./MainpageHeader";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { supabase } from "../utils/supabaseClient";
 import "react-toastify/dist/ReactToastify.css";
@@ -8,6 +8,7 @@ import "react-toastify/dist/ReactToastify.css";
 export const ResetPassword = () => {
   const [newPassword, setNewPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
+  const navigate = useNavigate();
 
   const handleResetPassword = async (e) => {
     e.preventDefault();
@@ -31,7 +32,7 @@ export const ResetPassword = () => {
           toast.error(error.message);
         }
       } else {
-        toast.success("Password has been reset successfully.");
+        navigate("/success-password");
       }
     } catch (err) {
       toast.error("An unexpected error occurred. Please try again.");
