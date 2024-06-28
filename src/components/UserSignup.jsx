@@ -1,20 +1,16 @@
 import React, { useState } from "react";
-import { useNavigate, Link } from "react-router-dom";
 import { MainpageHeader } from "./MainpageHeader";
-import { SignupImage } from "../assets/images/SignupImage";
-import { supabase } from "../utils/supabaseClient";
+import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+import axios from "axios";
 
 export const UserSignup = () => {
   const navigate = useNavigate();
-  const [firstName, setFirstName] = useState();
+  const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
-
-  // refer: https://supabase.com/docs/reference/javascript/auth-signup#:~:text=unless%20absolutely%20necessary.-,Create%20a%20new%20user,-Creates%20a%20new
 
   const handleSignUp = async (e) => {
     e.preventDefault();
@@ -24,25 +20,18 @@ export const UserSignup = () => {
       return;
     }
 
-    const { data, error } = await supabase.auth.signUp({
-      email,
-      password,
-      options: {
-        data: { first_name: firstName, last_name: lastName },
-      },
-    });
+    try {
+      await axios.post("http://localhost:5000/signup", {
+        email,
+        password,
+      });
 
-    if (error) {
-      if (error.message.includes("Email rate limit exceeded")) {
-        toast.error("Too many sign-up attempts. Please try again later.");
-      } else {
-        toast.error(error.message);
-      }
-    } else {
-      toast.success("Sign-up successful! Please verify your mail to login.");
+      toast.success("Sign-up successful! Please verify your email to login.");
       setTimeout(() => {
         navigate("/sign-in");
       }, 2000);
+    } catch (error) {
+      toast.error(error.response?.data?.message || "An error occurred");
     }
   };
 
@@ -55,7 +44,7 @@ export const UserSignup = () => {
       <div className="flex justify-center">
         <div className="flex max-w-screen-xl md:mt-12">
           <div className="hidden h-[529px] w-[765px] md:inline-block">
-            <SignupImage />
+            {/* Placeholder for SignupImage */}
           </div>
 
           <div className="mx-3 mt-5 rounded-lg border px-4 pt-4 md:ml-10 md:w-96 md:border-0">

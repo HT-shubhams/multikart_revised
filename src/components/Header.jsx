@@ -17,7 +17,7 @@ const Header = ({ setIsAuthenticated }) => {
       } else {
         console.log("User signed out successfully");
         toast.success("Signed out successfully");
-        setIsAuthenticated(false); // Update authentication state
+        setIsAuthenticated(false);
         navigate("/sign-in");
       }
     } catch (err) {
