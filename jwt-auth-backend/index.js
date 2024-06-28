@@ -11,20 +11,16 @@ app.use(cors());
 
 const users = [];
 
-// Endpoint to handle user sign-up
 app.post("/signup", async (req, res) => {
   const { email, password } = req.body;
 
   try {
-    // Check if the user already exists
     if (users.find((user) => user.email === email)) {
       return res.status(400).json({ message: "User already exists" });
     }
 
-    // Hash the password
     const hashedPassword = await bcrypt.hash(password, 10);
 
-    // Store the user
     const newUser = { email, password: hashedPassword };
     users.push(newUser);
 
@@ -34,19 +30,16 @@ app.post("/signup", async (req, res) => {
   }
 });
 
-// Endpoint to handle user sign-in
 app.post("/signin", async (req, res) => {
   const { email, password } = req.body;
 
   try {
-    // Find the user by email
     const user = users.find((user) => user.email === email);
 
     if (!user) {
       return res.status(404).json({ message: "User not found" });
     }
 
-    // Compare passwords
     const isMatch = await bcrypt.compare(password, user.password);
 
     if (!isMatch) {
@@ -59,19 +52,16 @@ app.post("/signin", async (req, res) => {
   }
 });
 
-// Endpoint to handle resetting password
 app.post("/reset-password", async (req, res) => {
   const { email, newPassword } = req.body;
 
   try {
-    // Find the user by email
     const user = users.find((user) => user.email === email);
 
     if (!user) {
       return res.status(404).json({ message: "User not found" });
     }
 
-    // Hash the new password and update
     const hashedPassword = await bcrypt.hash(newPassword, 10);
     user.password = hashedPassword;
 

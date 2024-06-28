@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { MainpageHeader } from "./MainpageHeader";
+import { SignupImage } from "../assets/images/SignupImage";
 import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import axios from "axios";
@@ -24,9 +25,11 @@ export const UserSignup = () => {
       await axios.post("http://localhost:5000/signup", {
         email,
         password,
+        firstName,
+        lastName,
       });
 
-      toast.success("Sign-up successful! Please verify your email to login.");
+      toast.success("Sign-up successful!");
       setTimeout(() => {
         navigate("/sign-in");
       }, 2000);
@@ -44,7 +47,7 @@ export const UserSignup = () => {
       <div className="flex justify-center">
         <div className="flex max-w-screen-xl md:mt-12">
           <div className="hidden h-[529px] w-[765px] md:inline-block">
-            {/* Placeholder for SignupImage */}
+            <SignupImage />
           </div>
 
           <div className="mx-3 mt-5 rounded-lg border px-4 pt-4 md:ml-10 md:w-96 md:border-0">
