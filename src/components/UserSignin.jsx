@@ -43,7 +43,7 @@ export const UserSignin = ({ setIsAuthenticated }) => {
             <SigninImage />
           </div>
 
-          <div className="mx-3 mt-5 rounded-lg border px-4 pt-4 shadow-md md:w-96">
+          <div className="mx-3 mt-5 rounded-lg border px-4 pt-4 shadow-md md:w-96 md:border-none">
             <div className="text-lg font-medium md:text-2xl">Login</div>
             <form className="mt-7 md:mt-10" onSubmit={handleSignIn}>
               <label htmlFor="email" className="text-sm">
