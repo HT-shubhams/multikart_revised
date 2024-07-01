@@ -2,31 +2,32 @@ import React, { useState } from "react";
 import { MainpageHeader } from "./MainpageHeader";
 import { SigninImage } from "../assets/images/SigninImage";
 import { Link, useNavigate } from "react-router-dom";
-import { supabase } from "../utils/supabaseClient";
 import { toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+import axios from "axios";
 
 export const UserSignin = ({ setIsAuthenticated }) => {
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  // refer: https://supabase.com/docs/reference/javascript/auth-signinwithpassword#:~:text=Response-,Sign%20in%20a%20user,-Log%20in%20an
-
   const handleSignIn = async (e) => {
     e.preventDefault();
 
-    const { error } = await supabase.auth.signInWithPassword({
-      email: email,
-      password: password,
-    });
+    try {
+      const response = await axios.post("http://localhost:5000/signin", {
+        email,
+        password,
+      });
 
-    if (error) {
-      toast.error(error.message);
-    } else {
-      toast.success("Sign-in successful!");
-      setIsAuthenticated(true);
-      navigate("/users");
+      if (response.status === 200) {
+        setIsAuthenticated(true);
+        navigate("/users");
+        toast.success("Sign-in successful!");
+      } else {
+        toast.error("Invalid credentials");
+      }
+    } catch (error) {
+      toast.error(error.response?.data?.message || "An error occurred");
     }
   };
 
@@ -42,7 +43,7 @@ export const UserSignin = ({ setIsAuthenticated }) => {
             <SigninImage />
           </div>
 
-          <div className="mx-3 mt-5 rounded-lg border px-4 pt-4 shadow-md md:w-96">
+          <div className="mx-3 mt-5 rounded-lg border px-4 pt-4 shadow-md md:w-96 md:border-none">
             <div className="text-lg font-medium md:text-2xl">Login</div>
             <form className="mt-7 md:mt-10" onSubmit={handleSignIn}>
               <label htmlFor="email" className="text-sm">

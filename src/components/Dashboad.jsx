@@ -6,6 +6,7 @@ import {
   TotalUsersIcon,
 } from "../assets/icons";
 import TotalActiveUsersChart from "./TotalActiveUsersChart";
+import UserStatsCard from "./UserStatsCard";
 
 const Dashboard = () => {
   const users = useUserStore((state) => state.users);
@@ -20,35 +21,26 @@ const Dashboard = () => {
       <div className="ml-4 mt-8 text-2xl font-normal">Dashboard</div>
 
       <div className="md:flex">
-        <div className="m-5 flex justify-between rounded-xl border p-5 shadow-lg md:w-64">
-          <div className="">
-            <div className="text-base">Total Users</div>
-            <div className="mt-3 text-2xl font-medium">{totalUsers}</div>
-          </div>
-          <div className="flex h-16 w-16 items-center justify-center rounded-full bg-[#fff8e7]">
-            <TotalUsersIcon />
-          </div>
-        </div>
+        <UserStatsCard
+          title="Total Users"
+          count={totalUsers}
+          icon={TotalUsersIcon}
+          bgColor="bg-[#fff8e7]"
+        />
 
-        <div className="m-5 flex justify-between rounded-xl border p-5 shadow-lg md:w-64">
-          <div className="">
-            <div className="text-base">Active Users</div>
-            <div className="mt-3 text-2xl font-medium">{activeUsers}</div>
-          </div>
-          <div className="flex h-16 w-16 items-center justify-center rounded-full bg-[#ebfcf0]">
-            <ActiveUsersIcon />
-          </div>
-        </div>
+        <UserStatsCard
+          title="Active Users"
+          count={activeUsers}
+          icon={ActiveUsersIcon}
+          bgColor="bg-[#ebfcf0]"
+        />
 
-        <div className="m-5 flex justify-between rounded-xl border p-5 shadow-lg md:w-64">
-          <div className="">
-            <div className="text-base">Inactive Users</div>
-            <div className="mt-3 text-2xl font-medium">{inactiveUsers}</div>
-          </div>
-          <div className="flex h-16 w-16 items-center justify-center rounded-full bg-[#fee6e6]">
-            <InactiveUsersIcon />
-          </div>
-        </div>
+        <UserStatsCard
+          title="Inactive Users"
+          count={inactiveUsers}
+          icon={InactiveUsersIcon}
+          bgColor="bg-[#fee6e6]"
+        />
       </div>
 
       <div className="ml-9 mt-14 hidden h-[400px] w-[551px] md:block">
