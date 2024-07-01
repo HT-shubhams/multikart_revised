@@ -19,7 +19,7 @@ Multikart is a web application built using React and Vite. It includes modules f
 
    ```bash
    git clone https://github.com/HT-shubhams/multikart_revised.git
-   cd multikart
+   cd multikart_revised
    ```
 
 2. **Install dependencies:**
