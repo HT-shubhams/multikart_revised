@@ -1,13 +1,31 @@
 import React from "react";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import classnames from "classnames";
 import { DashboardIcon, UsersIcon } from "../assets/icons";
+import { supabase } from "../utils/supabaseClient";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
-const MobileMenu = ({ open, onClose, anchorEl }) => {
+const MobileMenu = ({ open, onClose, anchorEl, setIsAuthenticated }) => {
+  const navigate = useNavigate();
+
   const handleClick = (event) => {
     onClose();
+  };
+
+  const handleSignOut = async () => {
+    const { error } = await supabase.auth.signOut();
+    if (error) {
+      console.error("Error during sign out:", error);
+      toast.error("Failed to sign out. Please try again.");
+    } else {
+      console.log("User signed out successfully");
+      toast.success("Signed out successfully");
+      setIsAuthenticated(false);
+      navigate("/sign-in");
+    }
   };
 
   const isActive = (path) => {
@@ -55,6 +73,15 @@ const MobileMenu = ({ open, onClose, anchorEl }) => {
       >
         <UsersIcon color={isActive("/users") ? activeColor : defaultColor} />
         <span className="ml-3">Users</span>
+      </MenuItem>
+      <MenuItem
+        className="flex items-center text-lg"
+        onClick={() => {
+          handleSignOut();
+          handleClick();
+        }}
+      >
+        <span className="ml-3 text-[#63666B]">Sign Out</span>
       </MenuItem>
     </Menu>
   );

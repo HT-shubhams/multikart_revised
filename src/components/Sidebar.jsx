@@ -5,7 +5,7 @@ import { useLocation, Link } from "react-router-dom";
 import classnames from "classnames";
 import MobileMenu from "./MobileMenu";
 
-const Sidebar = () => {
+const Sidebar = ({ setIsAuthenticated }) => {
   const location = useLocation();
   const [openMobileMenu, setOpenMobileMenu] = useState(false);
   const [anchorEl, setAnchorEl] = useState(null);
@@ -97,6 +97,7 @@ const Sidebar = () => {
         open={openMobileMenu}
         onClose={() => setOpenMobileMenu(false)}
         anchorEl={anchorEl}
+        setIsAuthenticated={setIsAuthenticated}
       />
     </div>
   );
